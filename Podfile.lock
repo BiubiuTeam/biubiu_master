@@ -1,0 +1,23 @@
+PODS:
+  - JSONModel (0.10.0)
+  - MBProgressHUD (0.8)
+  - Nimbus/AttributedLabel (1.0.0):
+    - Nimbus/Core
+  - Nimbus/Core (1.0.0)
+  - SDWebImage (3.5.2):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.5.2)
+
+DEPENDENCIES:
+  - JSONModel (~> 0.10.0)
+  - MBProgressHUD
+  - Nimbus/AttributedLabel (~> 1.0.0)
+  - SDWebImage
+
+SPEC CHECKSUMS:
+  JSONModel: cecca3c3a9ee1a248b56f7139e2d64b85ce536ec
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+  Nimbus: 01c4339214b2f35be2e9284cb6e98beb7fe0f08a
+  SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
+
+COCOAPODS: 0.34.4

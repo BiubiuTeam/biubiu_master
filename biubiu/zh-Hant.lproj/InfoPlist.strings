@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  biubiu
+
+  Created by haowenliang on 15/3/2.
+  Copyright (c) 2015年 dpsoft. All rights reserved.
+*/
+
+"NSLocationWhenInUseUsageDescription" = "請點擊“允許”以允許biubiu獲取地理位置信息請求。\n若不允許，biubiu的大部分功能都無法正常使用。";

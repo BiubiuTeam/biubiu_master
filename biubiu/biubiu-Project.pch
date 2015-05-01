@@ -1,0 +1,57 @@
+//
+//  biubiu-Project.pch
+//  biubiu
+//
+//  Created by haowenliang on 15/1/31.
+//  Copyright (c) 2015年 dpsoft. All rights reserved.
+//
+
+#ifndef biubiu_biubiu_Project_pch
+#define biubiu_biubiu_Project_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "UIScreenEx.h"
+#import "UIViewAdditions.h"
+#import "UIColorAdditions.h"
+#import "UIImageAdditions.h"
+#import "UIViewControllerAdditions.h"
+#import "NSStringAdditions.h"
+#import "BiuDevice.h"
+#import "DPFont.h"
+
+#import "DPLocalDataManager+DebugMode.h"
+
+#if TARGET_IPHONE_SIMULATOR
+#define SIMULATOR 1
+#elif TARGET_OS_IPHONE
+#define SIMULATOR 0
+#endif
+
+#define appStoreOrAdhoc (1)
+
+#if appStoreOrAdhoc
+#define DPTrace(...)
+#else
+#define DPTrace(fmt, ...) NSLog((@"DPTrace :%s : %d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#endif
+
+
+#if ! __has_feature(objc_arc)
+#define _RELEASE( x ) if( nil != (x)){ [(x) release] ;  (x) = nil ; }
+#else
+#define _RELEASE( x ) if( nil != (x)){ (x) = nil ; }
+#endif
+
+
+
+#define LOAD_ICON_USE_POOL_CACHE(x) [UIImage imageNamed:[NSString stringWithFormat:@"resource/%@",x]]
+
+typedef void (^DPCallbackBlock)(id sender);
+typedef void (^DPIntegerCallbackBlock)(id sender, NSInteger result);
+typedef void (^DPBooleanCallbackBlock)(id sender, BOOL result);
+
+
+#define BB_DEPRECATED_IOS(_biubiuIntro, _biubiuDep, ...) __attribute__((deprecated("")))
+
+#endif

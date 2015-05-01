@@ -1,0 +1,296 @@
+/* 
+  Localizable.strings
+  biubiu
+
+  Created by haowenliang on 15/2/1.
+  Copyright (c) 2015年 dpsoft. All rights reserved.
+*/
+
+
+"BB_TXTID_完成" = "完成";
+
+"BB_TXTID_我的" = "我的";
+
+"BB_TXTID_我的提问" = "我的奇思";
+
+"BB_TXTID_我的回答" = "我的妙答";
+
+"BB_TXTID_回答" = "回复";
+
+"BB_TXTID_清空所有消息" = "清空所有消息";
+
+"BB_TXTID_说些什么吧..." = "妙答在此~";
+
+"BB_TXTID_清空" = "清空";
+
+"BB_TXTID_消息" = "消息";
+
+"BB_TXTID_新回复" = "新回复";
+
+"BB_TXTID_%zd个新回复" = "%zd个新回复";
+
+"BB_TXTID_附近没有biubiu" = "探测发现，此处为信息荒漠，尚未被挖掘，快去发表信息成为领主吧！";
+
+"BB_TXTID_未参与提示" = "\t    @ # $ %前方探测表明\n您还未参与到话题中，速去参与...";
+
+"BB_TXTID_SOSO提示" = "网络连接失败了，需要您确认网络设置～";
+
+"BB_TXTID_无足迹" = "您还没在biubiu留下足迹～\n\t 赶紧发出你的奇思吧！";
+
+
+"BB_TXTID_定位高亮" = "设置>隐私>定位服务";
+
+"BB_TXTID_定位权限提示" = "biubiu需要通过定位服务，\n加载周边信息，请在\n设置>隐私>定位服务\n中允许biubiu的请求。";
+
+"BB_TXTID_网络错误提示" = "网络连接失败了，需要您确认网络设置～";
+
+"BB_TXTID_附近无数据" = "探测发现，此处为信息荒漠，尚未被挖掘，快去发表信息成为领主吧！";
+
+"BB_TXTID_消息无数据" = "探测发现，此处为信息荒漠，\n暂无消息！";
+
+"BB_TXTID_我的提问无数据" = "您还没在biubiu留下足迹～\n赶紧发出你的奇思吧！";
+
+"BB_TXTID_我的回答无数据" = "@ # $ %前方探测表明\n您还未参与到话题中，速去参与...";
+
+"BB_TXTID_默认错误" = "恭喜您发现了我们的一个Bug，希望能收到您的反馈邮件";
+////////////////////////////////////////////
+
+
+"BB_TXTID_附近" = "附近";
+
+"BB_TXTID_足迹" = "足迹";
+
+"BB_TXTID_我回答的" = "我妙答的";
+
+"BB_TXTID_说点儿啥" = "奇思妙想";
+
+"BB_TXTID_说点儿啥～" = "你有什么奇思妙想？问问身边的ta吧～";
+
+
+"BB_TXTID_发表" = "发表";
+
+"BB_TXTID_署名" = "署名";
+
+"BB_TXTID_取消" = "取消";
+
+"BB_TXTID_发表失败" = "发表失败";
+
+
+"BB_TXTID_%zd人回答" = "%zd人回复";
+
+"BB_TXTID_确定" = "确定";
+
+"BB_TXTID_删除话题后，您将不再收到该话题相关的消息提醒，是否确认删除？" = "删除话题后，您将不再收到该话题相关的消息提醒，是否确认删除？";
+
+
+"BB_TXTID_举报" = "举报";
+"BB_TXTID_删除" = "删除";
+
+"BB_TXTID_详情" = "详情";
+
+"BB_TXTID_设置" = "设置";
+
+
+"BB_TXTID_发送" = "发送";
+
+"BB_TXTID_我的积分" = "我得到的赞";
+
+"BB_TXTID_分" = "个";
+
+"BB_TXTID_超过当前0%的biubiu客" = "超过当前0%的biubiu客";
+
+"BB_TXTID_超过当前%@的biubiu客" = "超过当前%@的biubiu客";
+////////////////////////////////////////////
+
+
+
+"BB_TXTID_个问题" = "个奇思";
+
+"BB_TXTID_好奇的提出了" = "好奇的发出了";
+
+"BB_TXTID_个答案" = "个回复";
+
+"BB_TXTID_幸运的得到了" = "幸运的得到了";
+
+"BB_TXTID_" = "";
+
+"BB_TXTID_次答题" = "次脑暴";
+
+"BB_TXTID_积极的参与了" = "积极的参与了";
+
+"BB_TXTID_" = "";
+
+"BB_TXTID_个赞" = "个赞";
+
+"BB_TXTID_惊喜的获得了" = "惊喜的获得了";
+
+
+"BB_TXTID_新评论通知" = "新评论通知";
+
+"BB_TXTID_用户反馈" = "用户反馈";
+
+"BB_TXTID_清除缓存" = "清除缓存";
+
+"BB_TXTID_已是最新版本" = "已是最新版本";
+
+"BB_TXTID_有新版本可用" = "有新版本可用";
+
+"BB_TXTID_版本更新" = "版本更新";
+
+"BB_TXTID_关于biubiu" = "关于biubiu";
+
+"BB_TXTID_联系我们" = "联系我们";
+
+"BB_TXTID_用户协议" = "用户协议";
+
+"BB_TXTID_给个赞吧！" = "给个赞吧！";
+
+"BB_TXTID_当前Version" = "当前 v";
+
+
+"BB_TXTID_我的biubiu" = "我的biubiu";
+
+"BB_TXTID_写下您的建议" = "写下您的建议";
+
+"BB_TXTID_天" = "天";
+
+"BB_TXTID_您已加入biubiu" = "您已加入biubiu";
+
+
+"BB_TXTID_回答操作失败" = "回答操作失败";
+
+"BB_TXTID_是否确定举报该biubiu" = "是否确定举报该biubiu";
+
+"BB_TXTID_是否确定举报该问题" = "是否确定举报该奇思";
+
+"BB_TXTID_是否确定举报该回答" = "是否确定举报该回复";
+
+"BB_TXTID_是否确定删除该biubiu" = "是否确定删除该biubiu";
+
+"BB_TXTID_举报成功" = "举报成功";
+
+"BB_TXTID_举报失败" = "举报失败";
+
+
+"BB_TXTID_网络未连接，请确认网络连接是否正常" = "网络未连接，请确认网络连接是否正常";
+
+"BB_TXTID_需要开启定位服务，允许biubiu的请求" = "需要开启定位服务，允许biubiu的请求";
+
+"BB_TXTID_总得说点什么吧···" = "总得说点什么吧···";
+
+
+"BB_TXTID_问题内容字数不能少于5个字" = "奇思内容字数不能少于5个字";
+
+"BB_TXTID_正在努力发表中..." = "正在努力发表中...";
+
+
+
+"BB_TXTID_公司Copyright" = "Copyright (c) 2015年 深圳云开日出科技有限公司.";
+
+"BB_TXTID_新浪微博" = "新浪微博";
+
+"BB_TXTID_官网" = "官网";
+
+
+"BB_TXTID_感谢您真诚的反馈" = "感谢您真诚的反馈";
+
+"BB_TXTID_反馈提交失败" = "反馈提交失败";
+
+"BB_TXTID_提交中..." = "提交中...";
+
+"BB_TXTID_反馈内容不能为空" = "反馈内容不能为空";
+
+"BB_TXTID_是否确定清除缓存数据" = "是否确定清除缓存数据";
+
+"BB_TXTID_清除缓存" = "清除缓存";
+
+
+"BB_TXTID_加载中..." = "加载中...";
+
+"BB_TXTID_更新失败" = "更新失败";
+
+
+
+"BB_TXTID_有1个问题等待您的答复" = "有1个奇思正等待您的回应";
+
+"BB_TXTID_您的提问得到了1个新赞" = "您的奇思得到了1个新赞";
+
+"BB_TXTID_您的回复得到了1个新赞" = "您的妙答得到了1个新赞";
+
+"BB_TXTID_匿名" = "匿名";
+
+
+"BB_TXTID_释放立即刷新..." = "释放立即刷新...";
+
+"BB_TXTID_释放加载更多..." = "释放加载更多...";
+
+"BB_TXTID_正在加载..." = "正在加载...";
+
+"BB_TXTID_下拉刷新..." = "下拉刷新...";
+
+"BB_TXTID_加载更多..." = "加载更多...";
+
+"BB_TXTID_上次更新: %@" = "上次更新: %@";
+
+
+
+
+"BB_TXTID_昨天" = "昨天";
+"BB_TXTID_%zd分钟前" = "%zd分钟前";
+"BB_TXTID_%zd小时前" = "%zd小时前";
+"BB_TXTID_%zd天前" = "%zd天前";
+
+
+
+
+//引用的图片资源的本地化
+"BB_SRCID_ContactUs" = "bb_contact_us_bg-zh-Hans.png";
+"BB_SRCID_FeedbacCloud" = "bb_feedback_cloud-zh-Hans.png";
+"BB_SRCID_AboutBiubiu" = "bb_about_biubiu-zh-Hans.png";
+"BB_SRCID_MSG_Answer" = "bb_message_answer-zh-Hans.png";
+"BB_SRCID_MSG_Vote" = "bb_message_vote-zh-Hans.png";
+"BB_SRCID_MSG_Quest" = "bb_message_question-zh-Hans.png";
+
+"BB_SRCID_Protocol" = "resource/protocol/protocol-zh-Hans";
+
+"BB_SRCID_MSG_Notification" = "bb_message_notification.png";
+
+
+//新增版块
+"BB_TXTID_校" = "校";
+"BB_TXTID_距" = "距";
+"BB_TXTID_%zd条内容" = "%zd条内容";
+
+"BB_TXTID_版块内发表引导词" = "有什么奇思妙想，尽情和小伙伴们讨论吧～";
+
+"BB_TXTID_版块" = "版块";
+"BB_TXTID_创建版块" = "创建版块";
+"BB_TXTID_版块创建" = "版块创建";
+
+"BB_TXTID_我的版块" = "我的版块";
+"BB_TXTID_设置Logo提示" = "设置个性版块Logo";
+"BB_TXTID_创建版块提示" = "创建版块是件严肃的事，创建后不能修改";
+"BB_TXTID_版块名称提示" = "输入你的版块名称（10个汉字以内）";
+
+"BB_TXTID_拍照权限提示" = "请在iPhone的“设置-隐私-相机”选项中，允许biubiu访问你的相机。";
+"BB_TXTID_拍照" = "拍照";
+"BB_TXTID_从手机相册选择" = "从手机相册选择";
+"BB_TXTID_版块名称不能为空" = "版块名称不能为空";
+"BB_TXTID_未选择图片上传" = "需要设置版块的Logo";
+"BB_TXTID_图片上传失败，请重新选择上传" = "图片上传失败，请重新选择上传";
+"BB_TXTID_版块创建请求失败" = "版块创建请求失败";
+
+"BB_TXTID_版块通过审核" = "您申请创建的版块已通过审核，快去看看吧！";
+"BB_TXTID_版块未通过审核" = "您申请创建的版块未能通过审核，可以重新申请创建～";
+
+"BB_TXTID_版块内提问无数据" = "你可能是第一个发现该版块的人，留下点什么吧";
+"BB_TXTID_审核中" = "biubiu正在加班加点审核中";
+
+"BB_TXTID_biubiu助手提示语" = "很抱歉，由于biubiu是一款免注册免登录的社交产品，受限于苹果iOS对keychains技术访问限制，我们暂时不能为您保留之前的用户数据，这个问题从下个版本的升级开始将会得到解决，您将可以永久保留您的数据，为您带来的不便请原谅，感谢支持biubiu并陪伴我们一起成长。";
+"BB_TXTID_找回" = "找回";
+"BB_TXTID_致biubiu的老用户" = "致biubiu的老用户";
+"BB_TXTID_感谢您对biubiu的支持，后台已经为你处理找回请求" = "感谢您对biubiu的支持，后台已经为你处理找回请求";
+"BB_TXTID_非常抱歉，找回操作失败" = "非常抱歉，找回操作失败";
+
+"BB_TXTID_未成年人不能进入" = "争取更多biubiu客的赞才能快乐地创建版块哦！";
+"BB_TXTID_随便看看" = "随便看看";

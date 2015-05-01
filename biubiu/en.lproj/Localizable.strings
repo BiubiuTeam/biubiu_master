@@ -1,0 +1,290 @@
+/*
+ Localizable.strings
+ biubiu
+ 
+ Created by haowenliang on 15/2/1.
+ Copyright (c) 2015年 dpsoft. All rights reserved.
+ */
+
+"BB_TXTID_完成" = "Complete";
+
+"BB_TXTID_我的" = "Me";
+
+"BB_TXTID_我的提问" = "My broadcasts";
+
+"BB_TXTID_我的回答" = "My replies";
+
+"BB_TXTID_回答" = "Reply";
+
+"BB_TXTID_清空所有消息" = "Clear all messages";
+
+"BB_TXTID_说些什么吧..." = "Any thoughts?";
+
+"BB_TXTID_清空" = "Clear all";
+
+"BB_TXTID_消息" = "Message";
+
+"BB_TXTID_新回复" = "New replies";
+
+"BB_TXTID_%zd个新回复" = "%zd new replies";
+
+"BB_TXTID_附近没有biubiu" = "You just found a message desert！Take the lead for your regional community.";
+
+"BB_TXTID_未参与提示" = "\t    @ # $ %It seems that you are not yet in any topics...";
+
+"BB_TXTID_SOSO提示" = "No network connection. The internet connection appears to be offline and it's not your fault.";
+
+"BB_TXTID_无足迹" = "No activities yet.\n\t  Any thoughts atm?";
+
+
+"BB_TXTID_定位高亮" = "Settings>Privacy>Location Services";
+
+"BB_TXTID_定位权限提示" = "Location Services is disabled. biubiu needs access to your location. Please turn on Location Services in your device settings.";
+
+"BB_TXTID_网络错误提示" = "No network connection. The internet connection appears to be offline and it's not your fault.";
+
+"BB_TXTID_附近无数据" = "You just found a message desert！Take the lead for your regional community.";
+
+"BB_TXTID_消息无数据" = "No message here yet.";
+
+"BB_TXTID_我的提问无数据" = "It seems that you haven't broadcast anything yet.Interesting replies are waiting for you! ";
+
+"BB_TXTID_我的回答无数据" = "\t    @ # $ %It seems that you are not yet in any topics...";
+
+"BB_TXTID_默认错误" = "Congratulations! You just find a bug! Hope we could receive your feedback";
+
+////////////////////////////////////////////
+
+
+"BB_TXTID_附近" = "Nearby";
+
+"BB_TXTID_足迹" = "My questions";
+
+"BB_TXTID_我回答的" = "My replies";
+"BB_TXTID_说点儿啥" = "Thoughts";
+"BB_TXTID_说点儿啥～" = "Any thoughts/stories/ideas want to broadcast?";
+"BB_TXTID_发表" = "Post it";
+
+"BB_TXTID_署名" = "Signature";
+
+"BB_TXTID_取消" = "Cancel";
+
+"BB_TXTID_发表失败" = "Failed";
+
+
+"BB_TXTID_%zd人回答" = "%zd people replied";
+"BB_TXTID_确定" = "Confirm";
+
+"BB_TXTID_删除话题后，您将不再收到该话题相关的消息提醒，是否确认删除？" = "You won't receive any related updates after deletion. Still want to delete?";
+
+"BB_TXTID_举报" = "Report";
+
+"BB_TXTID_删除" = "Delete";
+"BB_TXTID_详情" = "Details";
+
+"BB_TXTID_设置" = "Settings";
+
+
+"BB_TXTID_发送" = "Send";
+
+"BB_TXTID_我的积分" = "My biu received";
+
+"BB_TXTID_分" = "likes";
+
+"BB_TXTID_超过当前0%的biubiu客" = "Surpasses 0% of all biubiuers";
+"BB_TXTID_超过当前%@的biubiu客" = "Surpasses %@ of all biubiusers";
+////////////////////////////////////////////
+
+
+
+"BB_TXTID_个问题" = "broadcasts";
+
+"BB_TXTID_好奇的提出了" = "broadcasted";
+
+"BB_TXTID_个答案" = "replies";
+
+"BB_TXTID_幸运的得到了" = "received";
+
+"BB_TXTID_" = "";
+
+"BB_TXTID_次答题" = "replied @ times";
+
+"BB_TXTID_积极的参与了" = "actively involved";
+
+"BB_TXTID_" = "";
+
+"BB_TXTID_个赞" = "likes";
+
+"BB_TXTID_惊喜的获得了" = "received";
+
+
+"BB_TXTID_新评论通知" = "New comments";
+
+"BB_TXTID_用户反馈" = "User Feedback";
+
+"BB_TXTID_清除缓存" = "Clear Cache";
+
+"BB_TXTID_已是最新版本" = "This is the latest version already";
+
+"BB_TXTID_有新版本可用" = "New version available";
+
+"BB_TXTID_版本更新" = "Version Update";
+
+"BB_TXTID_关于biubiu" = "About";
+
+"BB_TXTID_联系我们" = "Contact Us";
+
+"BB_TXTID_用户协议" = "User Agreement";
+
+"BB_TXTID_给个赞吧！" = "Like Us";
+
+"BB_TXTID_当前Version" = "Current Version";
+
+
+"BB_TXTID_我的biubiu" = "My biubiu";
+
+"BB_TXTID_写下您的建议" = "Your suggestion";
+
+"BB_TXTID_天" = "days";
+
+"BB_TXTID_您已加入biubiu" = "You have joined biubiu for";
+
+
+"BB_TXTID_回答操作失败" = "Fail to reply";
+
+"BB_TXTID_是否确定举报该biubiu" = "This broadcast should be removed from the feed due to our rules?";
+
+"BB_TXTID_是否确定举报该问题" = "This broadcast should be removed from the feed due to our rules?";
+
+"BB_TXTID_是否确定举报该回答" = "This reply should be removed from the feed due to our rules?";
+
+"BB_TXTID_是否确定删除该biubiu" = "Delete this broadcast?";
+
+"BB_TXTID_举报成功" = "Message reported and thank you for helping to keep this community clean and fun";
+
+"BB_TXTID_举报失败" = "Fail to report.";
+
+
+"BB_TXTID_网络未连接，请确认网络连接是否正常" = "No network connection. The internet connection appears to be offline and it's not your fault.";
+
+"BB_TXTID_需要开启定位服务，允许biubiu的请求" = "Location Services is disabled. biubiu needs access to your location. Please turn on Location Services in your device settings.";
+
+"BB_TXTID_总得说点什么吧···" = "Any thoughts/stories/ideas want to broadcast?";
+
+
+"BB_TXTID_问题内容字数不能少于5个字" = "Your broadcast should be more than 5 words at least";
+
+"BB_TXTID_正在努力发表中..." = "biubiu is trying everything to broadcast...";
+
+
+
+"BB_TXTID_公司Copyright" = "Copyright (c) 2015 Shenzhen Yunkairichu Technology Co., Ltd";
+
+"BB_TXTID_新浪微博" = "Sina Weibo";
+
+"BB_TXTID_官网" = "Official Website";
+
+
+"BB_TXTID_感谢您真诚的反馈" = "Thank you for the valuable feedback";
+
+"BB_TXTID_反馈提交失败" = "Failed to send";
+
+"BB_TXTID_提交中..." = "Sending...";
+
+"BB_TXTID_反馈内容不能为空" = "Feedback cannot be left blank";
+
+"BB_TXTID_是否确定清除缓存数据" = "Confirm to clear cache?";
+
+"BB_TXTID_清除缓存" = "Clear Cache";
+
+
+"BB_TXTID_加载中..." = "Loading...";
+
+"BB_TXTID_更新失败" = "Fail to update";
+
+
+
+"BB_TXTID_有1个问题等待您的答复" = "One local broadcast is waiting for your reply";
+
+"BB_TXTID_您的提问得到了1个新赞" = "Your broadcast just got 1 like";
+
+"BB_TXTID_您的回复得到了1个新赞" = "Your reply just got 1 like";
+
+"BB_TXTID_匿名" = "Anonymous";
+
+
+"BB_TXTID_释放立即刷新..." = "Release to refresh...";
+
+"BB_TXTID_释放加载更多..." = "Release to load more...";
+
+"BB_TXTID_正在加载..." = "Loading...";
+
+"BB_TXTID_下拉刷新..." = "Pull to refresh...";
+
+"BB_TXTID_加载更多..." = "Load more...";
+
+"BB_TXTID_上次更新: %@" = "Last renewal time: %@";
+
+
+
+
+"BB_TXTID_昨天" = "Yesterday";
+"BB_TXTID_%zd分钟前" = "%zd mins ago";
+"BB_TXTID_%zd小时前" = "%zd hour ago";
+"BB_TXTID_%zd天前" = "%zd days ago";
+
+
+
+
+
+
+//引用的图片资源的本地化
+"BB_SRCID_ContactUs" = "bb_contact_us_bg-en.png";
+"BB_SRCID_FeedbacCloud" = "bb_feedback_cloud-en.png";
+"BB_SRCID_AboutBiubiu" = "bb_about_biubiu-en.png";
+"BB_SRCID_MSG_Answer" = "bb_message_answer-en.png";
+"BB_SRCID_MSG_Vote" = "bb_message_vote-en.png";
+"BB_SRCID_MSG_Quest" = "bb_message_question-en.png";
+
+"BB_SRCID_Protocol" = "resource/protocol/protocol-en";
+
+"BB_SRCID_MSG_Notification" = "bb_message_notification_en.png";
+//新增版块
+"BB_TXTID_校" = "Sch";
+"BB_TXTID_距" = "Dis";
+"BB_TXTID_%zd条内容" = "%zd broadcasts";
+"BB_TXTID_版块内发表引导词" = "Any thoughts/stories/ideas? share with us!";
+
+"BB_TXTID_版块" = "Topic";
+"BB_TXTID_创建版块" = "Submit";
+"BB_TXTID_版块创建" = "Topic creation";
+"BB_TXTID_我的版块" = "My Topic";
+
+"BB_TXTID_设置Logo提示" = "Set personality topic logo";
+"BB_TXTID_创建版块提示" = "Creation is a serious matter, can't be changed";
+"BB_TXTID_版块名称提示" = "Topic name (10 characters or less)";
+
+"BB_TXTID_拍照权限提示" = "Please allow biubiu to access your device’s camera in “Settings” -> “Privacy” -> “Camera”.";
+"BB_TXTID_拍照" = "Take Photo";
+"BB_TXTID_从手机相册选择" = "Choose from Photos";
+
+"BB_TXTID_版块名称不能为空" = "Topic name can't be nothing";
+"BB_TXTID_未选择图片上传" = "Topic needs one Logo";
+"BB_TXTID_图片上传失败，请重新选择上传" = "Logo did failed upload，Please choose again";
+"BB_TXTID_版块创建请求失败" = "Topic creation request failed";
+
+"BB_TXTID_版块通过审核" = "Your Topic application has been approved, Go see it";
+"BB_TXTID_版块未通过审核" = "Your Topic application is Unsuccessful, Create another one~";
+
+"BB_TXTID_版块内提问无数据" = "No biubius here yet, say something to make it interesting";
+"BB_TXTID_审核中" = "Your application is under review with our best efforts";
+
+"BB_TXTID_致biubiu的老用户" = "Version tips";
+"BB_TXTID_biubiu助手提示语" = "Due to the keychains technological visit constraints from Apple, we are sorry to inform you that we cannot keep your previous user records temporarily as biubiu is a registration free social networking app. We will solve this problem and offer permanent user record storage on our next updated version. Sorry again for any inconvenience caused and thank you for all the support that you had given us.";
+"BB_TXTID_找回" = "Find";
+
+"BB_TXTID_感谢您对biubiu的支持，后台已经为你处理找回请求" = "Thank you for all the support that you had given us,we have deal with your request!";
+"BB_TXTID_非常抱歉，找回操作失败" = "So sorry for the operation failed";
+
+"BB_TXTID_未成年人不能进入" = "Getting more biu likes to create a topic!";
+"BB_TXTID_随便看看" = "Look around";
