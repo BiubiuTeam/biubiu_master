@@ -16,6 +16,8 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
+        self.contentMode = UIViewContentModeCenter;
+        
         self.backgroundColor = [UIColor clearColor];
         _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         _imageView.backgroundColor = [UIColor clearColor];

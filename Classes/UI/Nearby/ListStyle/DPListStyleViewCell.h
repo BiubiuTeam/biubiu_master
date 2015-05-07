@@ -7,13 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DPListStyleLeftView.h"
+#import "ListConstants.h"
+
+typedef NS_ENUM(NSUInteger, ListStyleViewState) {
+    ListStyleViewState_Close = 0,
+    ListStyleViewState_Open = 1,
+};
 
 @class DPListStyleViewCell;
 
 @protocol DPListStyleViewCellProtocol <NSObject>
+
 @optional
-- (void)replyStateChangedAtPosition:(NSInteger)position toState:(ListStyleViewState)state;
+- (void)cellDidClickMessageButton:(NSInteger)modelInPosition;
 
 @end
 
@@ -22,15 +28,9 @@
 @property (nonatomic, assign) NSInteger modelInPosition;
 @property (nonatomic, assign) id<DPListStyleViewCellProtocol> delegate;
 
-@property (nonatomic, copy) DPCallbackBlock openOptBlock;
-@property (nonatomic, copy) DPCallbackBlock closeOptBlock;
-
-@property (nonatomic, copy) DPCallbackBlock clickBlock;
-
-- (void)didClickLeftView;
 - (void)setPostContentModel:(id)model;
-- (void)closeLeftReplyViewSilence:(BOOL)silence;
-- (void)openLeftViewOpt;
+
+- (void)closeReplyViewOpt;
 
 @property (nonatomic, assign) ListStyleViewState contentState;
 

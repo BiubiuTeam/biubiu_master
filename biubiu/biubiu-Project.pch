@@ -28,7 +28,7 @@
 #define SIMULATOR 0
 #endif
 
-#define appStoreOrAdhoc (1)
+#define appStoreOrAdhoc (0)
 
 #if appStoreOrAdhoc
 #define DPTrace(...)

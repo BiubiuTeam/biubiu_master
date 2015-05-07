@@ -21,7 +21,6 @@
 		5502FD891A7E091E005FF4C3 /* DPShortNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502FD881A7E091E005FF4C3 /* DPShortNoticeView.m */; };
 		5502FD981A7E5C1A005FF4C3 /* DPMainEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502FD8B1A7E5C1A005FF4C3 /* DPMainEventHandler.m */; };
 		5502FD991A7E5C1A005FF4C3 /* DPListStyleContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502FD8E1A7E5C1A005FF4C3 /* DPListStyleContentView.m */; };
-		5502FD9A1A7E5C1A005FF4C3 /* DPListStyleLeftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502FD901A7E5C1A005FF4C3 /* DPListStyleLeftView.m */; };
 		5502FD9B1A7E5C1A005FF4C3 /* DPListStyleReplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502FD921A7E5C1A005FF4C3 /* DPListStyleReplyView.m */; };
 		5502FD9C1A7E5C1A005FF4C3 /* DPListStyleViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502FD941A7E5C1A005FF4C3 /* DPListStyleViewCell.m */; };
 		5502FDA01A7E6141005FF4C3 /* DPLoadingMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502FD9F1A7E6141005FF4C3 /* DPLoadingMessageView.m */; };
@@ -108,6 +107,7 @@
 		552B15471A821E5000A3E47A /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 552B15431A821E5000A3E47A /* whiteArrow@2x.png */; };
 		552B17131AC145980072812C /* DPSociatyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 552B17121AC145980072812C /* DPSociatyModel.m */; };
 		552B17161AC14AB40072812C /* DPUnionCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 552B17151AC14AB40072812C /* DPUnionCreateViewController.m */; };
+		552E62791AFB4E4400F5914A /* AnimateLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 552E62781AFB4E4400F5914A /* AnimateLabel.m */; };
 		552F95921AC30F0300E37B58 /* DPBaseUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 552F958D1AC30F0300E37B58 /* DPBaseUploader.m */; };
 		552F95931AC30F0300E37B58 /* DPBaseUploadMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 552F958F1AC30F0300E37B58 /* DPBaseUploadMgr.m */; };
 		552F95941AC30F0300E37B58 /* DPPhotoUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 552F95911AC30F0300E37B58 /* DPPhotoUploader.m */; };
@@ -200,8 +200,6 @@
 		5502FD8B1A7E5C1A005FF4C3 /* DPMainEventHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPMainEventHandler.m; sourceTree = "<group>"; };
 		5502FD8D1A7E5C1A005FF4C3 /* DPListStyleContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPListStyleContentView.h; sourceTree = "<group>"; };
 		5502FD8E1A7E5C1A005FF4C3 /* DPListStyleContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPListStyleContentView.m; sourceTree = "<group>"; };
-		5502FD8F1A7E5C1A005FF4C3 /* DPListStyleLeftView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPListStyleLeftView.h; sourceTree = "<group>"; };
-		5502FD901A7E5C1A005FF4C3 /* DPListStyleLeftView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPListStyleLeftView.m; sourceTree = "<group>"; };
 		5502FD911A7E5C1A005FF4C3 /* DPListStyleReplyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPListStyleReplyView.h; sourceTree = "<group>"; };
 		5502FD921A7E5C1A005FF4C3 /* DPListStyleReplyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPListStyleReplyView.m; sourceTree = "<group>"; };
 		5502FD931A7E5C1A005FF4C3 /* DPListStyleViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPListStyleViewCell.h; sourceTree = "<group>"; };
@@ -358,6 +356,8 @@
 		552B17121AC145980072812C /* DPSociatyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPSociatyModel.m; sourceTree = "<group>"; };
 		552B17141AC14AB40072812C /* DPUnionCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPUnionCreateViewController.h; sourceTree = "<group>"; };
 		552B17151AC14AB40072812C /* DPUnionCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPUnionCreateViewController.m; sourceTree = "<group>"; };
+		552E62771AFB4E4400F5914A /* AnimateLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimateLabel.h; sourceTree = "<group>"; };
+		552E62781AFB4E4400F5914A /* AnimateLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimateLabel.m; sourceTree = "<group>"; };
 		552F958C1AC30F0300E37B58 /* DPBaseUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPBaseUploader.h; sourceTree = "<group>"; };
 		552F958D1AC30F0300E37B58 /* DPBaseUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPBaseUploader.m; sourceTree = "<group>"; };
 		552F958E1AC30F0300E37B58 /* DPBaseUploadMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPBaseUploadMgr.h; sourceTree = "<group>"; };
@@ -582,10 +582,10 @@
 		5502FD8C1A7E5C1A005FF4C3 /* ListStyle */ = {
 			isa = PBXGroup;
 			children = (
+				552E62771AFB4E4400F5914A /* AnimateLabel.h */,
+				552E62781AFB4E4400F5914A /* AnimateLabel.m */,
 				5502FD8D1A7E5C1A005FF4C3 /* DPListStyleContentView.h */,
 				5502FD8E1A7E5C1A005FF4C3 /* DPListStyleContentView.m */,
-				5502FD8F1A7E5C1A005FF4C3 /* DPListStyleLeftView.h */,
-				5502FD901A7E5C1A005FF4C3 /* DPListStyleLeftView.m */,
 				5502FD911A7E5C1A005FF4C3 /* DPListStyleReplyView.h */,
 				5502FD921A7E5C1A005FF4C3 /* DPListStyleReplyView.m */,
 				5502FD931A7E5C1A005FF4C3 /* DPListStyleViewCell.h */,
@@ -1509,7 +1509,6 @@
 				5502FD801A7DFCDA005FF4C3 /* Reachability.m in Sources */,
 				550950FB1AA19C1A0005E70A /* DPImageViewController.m in Sources */,
 				552112421A7CF62E0026E334 /* DPSettingViewController.m in Sources */,
-				5502FD9A1A7E5C1A005FF4C3 /* DPListStyleLeftView.m in Sources */,
 				552111CE1A7CA98C0026E334 /* BackSourceInfo_4202.m in Sources */,
 				552B17131AC145980072812C /* DPSociatyModel.m in Sources */,
 				5521124C1A7CF82E0026E334 /* DPTextView.m in Sources */,
@@ -1534,6 +1533,7 @@
 				5521122C1A7CDDC70026E334 /* DPLbsInformationView.m in Sources */,
 				5527CB691A80D39900959058 /* DPLocalDataManager+DebugMode.m in Sources */,
 				55F92B2C1A8C570900176084 /* BackSourceInfo_4303.m in Sources */,
+				552E62791AFB4E4400F5914A /* AnimateLabel.m in Sources */,
 				552B15371A82172100A3E47A /* EGORefreshTableHeaderView.m in Sources */,
 				55F92B261A8C56EF00176084 /* BackSourceInfo_4301.m in Sources */,
 				5502FD7A1A7DCC27005FF4C3 /* DPMessageViewController.m in Sources */,

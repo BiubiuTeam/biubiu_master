@@ -22,7 +22,7 @@
 
 #import "DPQuestionUpdateService.h"
 #import "DPAnswerUpdateService.h"
-
+#import "DPListStyleReplyView.h"
 #import "DPNavLocationView.h"
 #import "DPHttpService+Sociaty.h"
 @interface DPNearbyViewController ()<DPListStyleViewCellProtocol>
@@ -65,6 +65,19 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if (_currentOpenIndex != NSNotFound) {
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_currentOpenIndex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        [[DPListStyleReplyView shareInstance] resetReplyView];
+        [[DPListStyleReplyView shareInstance] removeFromSuperview];
+    }
+    _currentOpenIndex = NSNotFound;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -261,44 +274,22 @@
     if (nil == listCell) {
         listCell = [[DPListStyleViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         listCell.delegate = self;
-    }else{
-        if(listCell.contentState == ListStyleViewState_Open && indexPath.row != listCell.modelInPosition){
-            [listCell closeLeftReplyViewSilence:YES];
-        }
     }
+    
     NSNumber* questionID = [[DPQuestionUpdateService shareInstance] nearbyQuestionList][indexPath.row];
     [listCell setPostContentModel:[[DPQuestionUpdateService shareInstance] getQuestionModelWithID:questionID.integerValue]];
     [listCell setModelInPosition:indexPath.row];
     
     if (_currentOpenIndex == indexPath.row) {
-        if (listCell.contentState != ListStyleViewState_Open) {
-            [listCell openLeftViewOpt];
-        }
         listCell.contentState = ListStyleViewState_Open;
     }else{
-        [listCell closeLeftReplyViewSilence:YES];
         listCell.contentState = ListStyleViewState_Close;
     }
     
+    if (_currentOpenIndex == NSNotFound) {
+        [listCell closeReplyViewOpt];
+    }
     return listCell;
-}
-
-- (void)replyStateChangedAtPosition:(NSInteger)position toState:(ListStyleViewState)state
-{
-    if(state == ListStyleViewState_Close){
-        if (_currentOpenIndex == position) {
-            _currentOpenIndex = NSNotFound;
-        }
-    }
-    if(state == ListStyleViewState_Open && _currentOpenIndex != position){
-        if (_currentOpenIndex != NSNotFound) {
-            DPListStyleViewCell* cell = (DPListStyleViewCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentOpenIndex inSection:0]];
-            [cell didClickLeftView];
-            
-//            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_currentOpenIndex inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
-        }
-        _currentOpenIndex = position;
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -307,14 +298,19 @@
     if (_viewType != TableViewType_Plain && _viewType != TableViewType_Group) {
         return;
     }
-//    if (_currentOpenIndex == indexPath.row) {
-//        return;
-//    }
-    NSNumber* questionID = [[DPQuestionUpdateService shareInstance] nearbyQuestionList][indexPath.row];
-    DPQuestionModel* model = [[DPQuestionUpdateService shareInstance] getQuestionModelWithID:questionID.integerValue];
-//    model = [[DPQuestionUpdateService shareInstance] getQuestionModelWithID:model.questId];
-    DPDetailViewController* detail = [[DPDetailViewController alloc] initWithPost:model];
-    [self.navigationController pushViewController:detail animated:YES];
+    if (_currentOpenIndex == indexPath.row) {
+        _currentOpenIndex = NSNotFound;
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        return;
+    }
+    
+    NSInteger lastIndex = _currentOpenIndex;
+    _currentOpenIndex = indexPath.row;
+    NSMutableArray* arr = [NSMutableArray arrayWithObject:indexPath];
+    if (lastIndex != NSNotFound) {
+        [arr addObject:[NSIndexPath indexPathForRow:lastIndex inSection:indexPath.section]];
+    }
+    [tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -322,12 +318,28 @@
     if (_viewType != TableViewType_Plain && _viewType != TableViewType_Group) {
         return SCREEN_HEIGHT - [self getNavStatusBarHeight];
     }
-    return _size_S(143.0);
+    if (_currentOpenIndex == indexPath.row) {
+        return DANKUDEGAULTHEIGHT + CELLDEGAULTHEIGHT + CELLBOTTOMHEIGHT;
+    }
+    return CELLDEGAULTHEIGHT;
 }
 
 - (void)showErrorTips:(NSString*)message
 {
     [DPShortNoticeView showTips:message atRootView:self.tableView];
+}
+
+- (void)openDetailViewAtIndex:(NSInteger)index
+{
+    NSNumber* questionID = [[DPQuestionUpdateService shareInstance] nearbyQuestionList][index];
+    DPQuestionModel* model = [[DPQuestionUpdateService shareInstance] getQuestionModelWithID:questionID.integerValue];
+    DPDetailViewController* detail = [[DPDetailViewController alloc] initWithPost:model];
+    [self.navigationController pushViewController:detail animated:YES];
+}
+
+- (void)cellDidClickMessageButton:(NSInteger)modelInPosition
+{
+    [self openDetailViewAtIndex:modelInPosition];
 }
 
 #pragma mark - refresh opt
@@ -341,7 +353,6 @@
     }
     EGOPullOrientation orientation = view.orientation;
     if (orientation == EGOPullOrientationDown) {
-        //        [self performSelector:@selector(updateNearbyList) withObject:nil afterDelay:0.3];
         [self performSelector:@selector(downRefreshOptWithLocationUpdate) withObject:nil afterDelay:0.3];
     }else if (orientation == EGOPullOrientationUp){
         [self performSelector:@selector(loadMoreNearbyList) withObject:nil afterDelay:0.3];

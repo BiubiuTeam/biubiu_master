@@ -13,10 +13,14 @@
     NSMutableArray* _datasource;
 }
 
-@property (nonatomic, strong) NSMutableArray* datasource;
-- (void)appendDatasource:(NSArray *)array;
++ (instancetype)shareInstance;
 
+@property (nonatomic, assign) BOOL animating;
+@property (nonatomic, strong) NSMutableArray* datasource;
+
+@property (nonatomic, assign) NSInteger dankuIndex;
+
+- (void)appendDatasource:(NSArray *)array;
 - (void)resetReplyView;
-- (void)setColorType:(NSInteger)type;
 
 @end
