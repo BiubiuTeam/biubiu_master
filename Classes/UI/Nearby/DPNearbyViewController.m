@@ -73,7 +73,7 @@
     [super viewWillDisappear:animated];
     
     if (_currentOpenIndex != NSNotFound) {
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_currentOpenIndex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_currentOpenIndex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         [[DPListStyleReplyView shareInstance] resetReplyView];
         [[DPListStyleReplyView shareInstance] removeFromSuperview];
     }
@@ -211,7 +211,8 @@
     }else{
         self.tableView.scrollEnabled = YES;
         [self addDownPullRefreshControl];
-        if([[DPQuestionUpdateService shareInstance] nearbyQuestionList].count  >= ONEPAGE_COUNT)
+        
+        if([[DPQuestionUpdateService shareInstance] nearbyQuestionList].count  > 10)
             [self addUpPullRefreshControl];
         else
             [self removeUpPullRefreshControl];
@@ -300,7 +301,8 @@
     }
     if (_currentOpenIndex == indexPath.row) {
         _currentOpenIndex = NSNotFound;
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self reloadIndexPathsWithCallback:@[indexPath]];
         return;
     }
     
@@ -310,7 +312,8 @@
     if (lastIndex != NSNotFound) {
         [arr addObject:[NSIndexPath indexPathForRow:lastIndex inSection:indexPath.section]];
     }
-    [tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self reloadIndexPathsWithCallback:arr];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -329,17 +332,35 @@
     [DPShortNoticeView showTips:message atRootView:self.tableView];
 }
 
-- (void)openDetailViewAtIndex:(NSInteger)index
+- (void)openDetailViewAtIndex:(NSInteger)index action:(BOOL)first
 {
     NSNumber* questionID = [[DPQuestionUpdateService shareInstance] nearbyQuestionList][index];
     DPQuestionModel* model = [[DPQuestionUpdateService shareInstance] getQuestionModelWithID:questionID.integerValue];
     DPDetailViewController* detail = [[DPDetailViewController alloc] initWithPost:model];
+    detail.inputBarIsFirstResponse = first;
     [self.navigationController pushViewController:detail animated:YES];
 }
 
 - (void)cellDidClickMessageButton:(NSInteger)modelInPosition
 {
-    [self openDetailViewAtIndex:modelInPosition];
+    [self openDetailViewAtIndex:modelInPosition action:YES];
+}
+
+- (void)cellDidClickBottomAcessoryView:(NSInteger)modelInPosition
+{
+    [self openDetailViewAtIndex:modelInPosition action:NO];
+}
+
+- (void)reloadIndexPathsWithCallback:(NSArray*)indexPaths
+{
+    [CATransaction begin];
+    [CATransaction setCompletionBlock:^{
+        [self pullRefreshControlRefreshDone];
+        [self pullRefreshControlUpdatePosition];
+    }];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [CATransaction commit];
 }
 
 #pragma mark - refresh opt

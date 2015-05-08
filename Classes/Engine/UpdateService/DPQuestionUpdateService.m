@@ -153,6 +153,29 @@
     }];
 }
 
+- (DPQuestionModel*)updateDemandedQuestion:(NSInteger)questionId countType:(DPCountSrcType)srcType
+{
+    DPQuestionModel* question = [self getQuestionModelWithID:questionId];
+    if (question) {
+        switch (srcType) {
+            case DPCountSrcType_Upvotes:
+            {
+                question.likeFlag = @(1);
+                question.likeNum++;
+            }break;
+            case DPCountSrcType_Downvotes:
+            {
+                question.likeFlag = @(2);
+                question.unlikeNum++;
+            }break;
+            default:
+                break;
+        }
+        [self replaceMemoryCacheQuestion:question];
+    }
+    return question;
+}
+
 #pragma mark -附近列表
 - (NSString*)keyForUpdateNearbyList
 {

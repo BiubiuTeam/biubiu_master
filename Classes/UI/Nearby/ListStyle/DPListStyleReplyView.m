@@ -28,6 +28,7 @@ static int DanKuLines = 5;
     BOOL _runningLoop;
 }
 
+@property (nonatomic, strong) UILabel* informationLabel;
 @property (nonatomic, strong) NSMutableArray* positionArray;
 
 @end
@@ -53,8 +54,51 @@ static int DanKuLines = 5;
         self.backgroundColor = [UIColor clearColor];
         _animating = NO;
         dankuLineLength = (float *)malloc(DanKuLines * sizeof(float));
+        
+        [self addSubview:self.informationLabel];
     }
     return self;
+}
+
+- (UILabel *)informationLabel
+{
+    if (nil == _informationLabel) {
+        _informationLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _informationLabel.backgroundColor = [UIColor clearColor];
+        _informationLabel.textColor = [UIColor colorWithColorType:ColorType_HighlightTxt];
+        _informationLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
+    }
+    return _informationLabel;
+}
+
+- (void)setInformationType:(INFOTYPE)type
+{
+    switch ( type) {
+        case INFOTYPE_EMPTY:
+        {
+            _informationLabel.text = @"还没有留言，留个言弹一发？";
+        }break;
+        case INFOTYPE_PROGRESS:
+        {
+            _informationLabel.text = @"一大波留言正在赶来 ^_^";
+        }break;
+        default:
+            break;
+    }
+    _informationLabel.hidden = NO;
+    [_informationLabel sizeToFit];
+    _informationLabel.center = CGPointMake(self.width/2, self.height/2);
+}
+
+- (void)removeInformationLabelWithAnimate:(BOOL)animate
+{
+    [UIView animateWithDuration:3 animations:^{
+        _informationLabel.right = 0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            _informationLabel.hidden = YES;
+        }
+    }];
 }
 
 - (void)dealloc
@@ -66,17 +110,18 @@ static int DanKuLines = 5;
 {
     UIColor* color = [UIColor blackColor];
     type = type + _loopTime + _loopRow;
-    switch (type%8) {
-        case 7:
-            color = [UIColor colorWithColorType:ColorType_Green];
+    switch (type%DanKuLines) {
+        case 0:
+            color = RGBACOLOR(0x79,0x93,0xdf,1);//[UIColor colorWithColorType:ColorType_Green];
             break;
-        case 6:
-            color = [UIColor colorWithColorType:ColorType_Pink];
+        case 1:
+            color = RGBACOLOR(0x57,0x87,0x42,1);//[UIColor colorWithColorType:ColorType_Pink];
             break;
-        case 5:
-            color = [UIColor colorWithColorType:ColorType_Yellow];
+        case 2:
+            color = RGBACOLOR(0xb2,0x36,0x36,1);//[UIColor colorWithColorType:ColorType_Yellow];
             break;
         default:
+            color = RGBACOLOR(0x33,0x33,0x33,1);
             break;
     }
     return color;
@@ -84,8 +129,8 @@ static int DanKuLines = 5;
 
 - (UIFont*)randomFont:(NSInteger)type
 {
-    type += (_loopRow + _loopTime)%5;
-    return [UIFont systemFontOfSize:(16+type)];
+    type += (_loopRow + _loopTime)%7;
+    return [UIFont systemFontOfSize:(13+type)];
 }
 
 - (NSMutableArray *)positionArray
@@ -166,11 +211,12 @@ static int DanKuLines = 5;
         _loopTime++;
         
         //计算下次启动的时间
-        CGFloat maxWith = dankuLineLength[0];
-        for (int i = 1; i < DanKuLines; i++) {
-            maxWith = MAX(maxWith, dankuLineLength[i]);
+        CGFloat maxWith = 0;
+        for (int i = 0; i < DanKuLines; i++) {
+//            maxWith = MAX(maxWith, dankuLineLength[i]);
+            maxWith += dankuLineLength[i];
         }
-        int time = abs((maxWith-SCREEN_WIDTH)/(1.2*60));
+        int time = MAX(1.5,abs((maxWith/DanKuLines-SCREEN_WIDTH)/(1.2*60)));
         
          _runningLoop = NO;
         [self performSelector:@selector(setup) withObject:nil afterDelay:time];

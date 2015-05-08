@@ -42,5 +42,6 @@
 - (void)updateMyReplyQuestionListWithCompletion:(DPQuestionListCallbackBlock)completion;
 - (void)pullMoreMyReplyQuestionListWithCompletion:(DPQuestionListCallbackBlock)completion;
 
-
+//添加赞和踩
+- (DPQuestionModel*)updateDemandedQuestion:(NSInteger)questionId countType:(DPCountSrcType)srcType;
 @end

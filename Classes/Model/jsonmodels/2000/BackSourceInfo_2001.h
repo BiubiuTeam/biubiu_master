@@ -39,6 +39,9 @@
 @property (strong, nonatomic) NSNumber<Optional>* opType; //问题类型，1常规用户发的问题，2管理员推送的类型
 
 @property (strong, nonatomic) NSNumber<Optional>* isCreator;
+
+@property (strong, nonatomic) NSNumber<Optional>* distance; //距离
+@property (strong, nonatomic) NSNumber<Optional>* isYellow; //是否标黄
 @end
 
 @interface BackendReturnData_2001 : JSONModel

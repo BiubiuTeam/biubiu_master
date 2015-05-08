@@ -305,16 +305,22 @@
 }
 
 
-- (void)openDetailViewAtIndex:(NSInteger)index
+- (void)openDetailViewAtIndex:(NSInteger)index action:(BOOL)first
 {
     DPQuestionModel* model = [self getQuestionFromSource:index];
     DPDetailViewController* detail = [[DPDetailViewController alloc] initWithPost:model];
+    detail.inputBarIsFirstResponse = first;
     [self.navigationController pushViewController:detail animated:YES];
 }
 
 - (void)cellDidClickMessageButton:(NSInteger)modelInPosition
 {
-    [self openDetailViewAtIndex:modelInPosition];
+    [self openDetailViewAtIndex:modelInPosition action:YES];
+}
+
+- (void)cellDidClickBottomAcessoryView:(NSInteger)modelInPosition
+{
+    [self openDetailViewAtIndex:modelInPosition action:NO];
 }
 
 #pragma mark - refresh opt

@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, INFOTYPE) {
+    INFOTYPE_EMPTY = 0,
+    INFOTYPE_PROGRESS = 1,
+};
+
 @interface DPListStyleReplyView : UIView
 {
     NSMutableArray* _datasource;
@@ -22,5 +27,6 @@
 
 - (void)appendDatasource:(NSArray *)array;
 - (void)resetReplyView;
-
+- (void)setInformationType:(INFOTYPE)type;
+- (void)removeInformationLabelWithAnimate:(BOOL)animate;
 @end

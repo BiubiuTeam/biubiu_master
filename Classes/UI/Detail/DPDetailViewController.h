@@ -16,4 +16,7 @@
 - (instancetype)initWithPost:(id)post;
 
 - (instancetype)initWithUnreadMessage:(id)model;
+
+@property (nonatomic) BOOL inputBarIsFirstResponse;
+
 @end

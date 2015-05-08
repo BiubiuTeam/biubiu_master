@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, ListStyleViewState) {
 @protocol DPListStyleViewCellProtocol <NSObject>
 
 @optional
+- (void)cellDidClickBottomAcessoryView:(NSInteger)modelInPosition;
 - (void)cellDidClickMessageButton:(NSInteger)modelInPosition;
 
 @end

@@ -79,6 +79,11 @@
     return self;
 }
 
+- (BOOL)becomeFirstResponder
+{
+    return [_textField becomeFirstResponder];
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];

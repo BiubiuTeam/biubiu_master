@@ -11,6 +11,7 @@
 #import "DPListStyleContentView.h"
 #import "DPListStyleReplyView.h"
 #import "ListConstants.h"
+#import "DPQuestionUpdateService.h"
 
 #import "BackSourceInfo_2001.h"
 #import "DPAnswerUpdateService.h"
@@ -35,6 +36,8 @@
 @property (nonatomic, strong) UILabel* ansNumLabel;
 @property (nonatomic, strong) UILabel* placeLabel;
 @property (nonatomic, strong) UILabel* distanceLabel;
+
+@property (nonatomic, strong) UIView* bottomTouchView;
 @end
 
 @implementation DPListStyleViewCell
@@ -97,6 +100,18 @@
     return self;
 }
 
+- (UIView *)bottomTouchView
+{
+    if (nil == _bottomTouchView) {
+        _bottomTouchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, CELLBOTTOMHEIGHT + _size_S(16))];
+        _bottomTouchView.backgroundColor = [UIColor clearColor];
+        
+        UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickBottomTouchView)];
+        [_bottomTouchView addGestureRecognizer:gesture];
+    }
+    return _bottomTouchView;
+}
+
 - (void)setPtType:(SociatyType)type ptName:(NSString*)name
 {
     if (type == SociatyType_School) {
@@ -139,6 +154,8 @@
         return;
     }
     _upvoteArea.selected = YES;
+    
+    [self voteQuestionOpt:0 like:1];
 }
 
 - (void)didPressedDownvoteBtn
@@ -150,6 +167,21 @@
         return;
     }
     _downvoteArea.selected = YES;
+    
+    [self voteQuestionOpt:0 like:2];
+}
+
+- (void)voteQuestionOpt:(NSInteger)ansId like:(NSInteger)likeOrNot
+{
+    DPQuestionModel* tmpModel = _postModel;
+    if (likeOrNot == 1) {
+        tmpModel = [[DPQuestionUpdateService shareInstance] updateDemandedQuestion:_postModel.questId countType:DPCountSrcType_Upvotes];
+    }else if(likeOrNot == 2) {
+        tmpModel = [[DPQuestionUpdateService shareInstance] updateDemandedQuestion:_postModel.questId countType:DPCountSrcType_Downvotes];
+    }
+    [self setPostContentModel:tmpModel];
+    
+    [[DPHttpService shareInstance] excuteCmdToVoteQuestion:_postModel.questId ansId:ansId like:likeOrNot];
 }
 
 - (void)displaySubViews
@@ -174,11 +206,17 @@
     
     [self bringSubviewToFront:_colorArea];
     
-    _messageButton.hidden = _upvoteArea.hidden = _downvoteArea.hidden = (ListStyleViewState_Close == _contentState);
+    _bottomTouchView.hidden = _messageButton.hidden = _upvoteArea.hidden = _downvoteArea.hidden = (ListStyleViewState_Close == _contentState);
     _upvoteArea.left = _placeLabel.left;
-    _downvoteArea.left = _upvoteArea.right + _size_S(30);
-    _messageButton.right = _contentView.right - _size_S(16);
+    _downvoteArea.left = _upvoteArea.right + _size_S(10);
+    _messageButton.right = _contentView.right - _size_S(13);
     _messageButton.bottom = _upvoteArea.bottom = _downvoteArea.bottom = self.height - _size_S(6);
+    _bottomTouchView.bottom = self.height;
+    
+    [self insertSubview:_bottomTouchView belowSubview:_colorArea];
+    [self insertSubview:_upvoteArea aboveSubview:_bottomTouchView];
+    [self insertSubview:_downvoteArea aboveSubview:_bottomTouchView];
+    [self insertSubview:_messageButton aboveSubview:_bottomTouchView];
 }
 
 - (void)layoutSubviews
@@ -203,13 +241,18 @@
     [_downvoteArea addTarget:self action:@selector(didPressedDownvoteBtn) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_downvoteArea];
     
+    downNormal = LOAD_ICON_USE_POOL_CACHE(@"bb_reply_gray.png");
+    downSelected = LOAD_ICON_USE_POOL_CACHE(@"bb_reply_white.png");
     _messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _messageButton.backgroundColor = [UIColor clearColor];
-    [_messageButton setFrame:CGRectMake(0, 0, _size_S(25), _size_S(25))];
+    _messageButton.contentMode = UIViewContentModeScaleAspectFit;
+    [_messageButton setFrame:CGRectMake(0, 0, _size_S(32), _size_S(26))];
     [_messageButton setImage:downNormal forState:UIControlStateNormal];
     [_messageButton setImage:downSelected forState:UIControlStateHighlighted];
     [_messageButton addTarget:self action:@selector(didClickMessageButton) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_messageButton];
+    
+    [self addSubview:self.bottomTouchView];
 }
 
 - (void)setModelInPosition:(NSInteger)modelInPosition
@@ -261,14 +304,29 @@
         return;
     }
     [DPListStyleReplyView shareInstance].dankuIndex = _modelInPosition;
-    [[DPLocalDataManager shareInstance] getPostReplyList:_postModel.questId completion:^(NSError *error, NSArray *result) {
-        if (error == nil && [result count]) {
-            DPTrace("加载到现有的反馈数据 %zd 条",[result count]);
-            [[DPListStyleReplyView shareInstance] appendDatasource:result];
-        }else{
-            DPTrace("附近页面加载回答数据： %@ ， count: %@", error, result);
-        }
-    }];
+    
+    if (_postModel.ansNum == 0) {
+        //没有回复，提示
+        [[DPListStyleReplyView shareInstance] setInformationType:INFOTYPE_EMPTY];
+    }else{
+        [[DPListStyleReplyView shareInstance] setInformationType:INFOTYPE_PROGRESS];
+        [[DPLocalDataManager shareInstance] getPostReplyList:_postModel.questId completion:^(NSError *error, NSArray *result) {
+            if (error == nil && [result count]) {
+                DPTrace("加载到现有的反馈数据 %zd 条",[result count]);
+                [[DPListStyleReplyView shareInstance] removeInformationLabelWithAnimate:YES];
+                [[DPListStyleReplyView shareInstance] appendDatasource:result];
+            }else{
+                DPTrace("附近页面加载回答数据： %@ ， count: %@", error, result);
+            }
+        }];
+    }
+}
+
+- (void)didClickBottomTouchView
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(cellDidClickBottomAcessoryView:)]) {
+        [_delegate cellDidClickBottomAcessoryView:_modelInPosition];
+    }
 }
 
 - (void)didClickMessageButton
@@ -306,6 +364,13 @@
     [_downvoteArea setMessageText:[NSString stringWithFormat:@"%zd",_postModel.unlikeNum]];
     [_upvoteArea setSelected:[_postModel.likeFlag integerValue] == 1];
     [_downvoteArea setSelected:[_postModel.likeFlag integerValue] == 2];
+    
+    NSInteger dist = [_postModel.distance integerValue];
+    if (dist < 3) {
+        [self setPtType:SociatyType_Public ptName:@"< 3 km"];
+    }else{
+        [self setPtType:SociatyType_Public ptName:[NSString stringWithFormat:@"%zd km",dist]];
+    }
 }
 
 - (void)dealloc
