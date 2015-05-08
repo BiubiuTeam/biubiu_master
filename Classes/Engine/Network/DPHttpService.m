@@ -292,6 +292,7 @@
  */
 - (void)excuteCmdToAnswerThePost:(NSString*)content
                        questId:(NSInteger)questId
+                           ansId:(NSInteger)ansId
                           toNick:(NSString*)toNick
                         location:(NSString*)location
 {
@@ -299,6 +300,7 @@
     [body setObject:[NSNumber numberWithInteger:0x2007] forKey:@"cmd"];
     [body setObject:content forKey:@"ans"];
     [body setObject:@(questId) forKey:@"questId"];
+    [body setObject:@(ansId) forKey:@"ansId"];
     
     if ([toNick length]) {
         [body setObject:toNick forKey:@"toNick"];
@@ -309,7 +311,7 @@
     }
     
     __block NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] init];
-    [userInfo setObject:content forKey:kNotification_CmdObject];
+    [userInfo setObject:body forKey:kNotification_CmdObject];
     
     [self postRequestWithBodyDictionary:body completion:^(id json, JSONModelError *err) {
         if (nil == err) {

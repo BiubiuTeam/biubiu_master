@@ -210,6 +210,8 @@
             DPAnswerModel* last = [orList lastObject];
             model.ansId = [[NSDate date] timeIntervalSince1970];
             model.sortId = last.sortId;
+            
+            model.floorId = [NSNumber numberWithInteger:([last.floorId integerValue]+1)];
         }
         model.isMine = @(YES);
         model.pubTime = [[NSDate date] timeIntervalSince1970];
@@ -218,6 +220,20 @@
         
         [_answerListSet setObject:mutList forKey:[self keyForAnswerList:questionId]];
     }
+}
+
+- (DPAnswerModel*)getQuestionLastBackendAnswer:(NSInteger)questionId
+{
+    NSArray* replyList = [self getQuestionAnswerList:questionId];
+    DPAnswerModel* model = nil;
+    for (NSInteger index = replyList.count; index > 0; index--) {
+        model = replyList[index-1];
+        if ([model.localModel boolValue]) {
+            continue;
+        }
+        break;
+    }
+    return model;
 }
 
 - (void)appendQuestionAnswerList:(NSInteger)questionId answers:(NSArray*)list
@@ -278,10 +294,6 @@
 
 - (void)pullMoreAnswerList:(NSInteger)questionId completion:(DPAnswerListCallbackBlock)completion
 {
-    NSArray* replyList = [self getQuestionAnswerList:questionId];
-    if ([replyList count] < ONEPAGE_COUNT) {
-        return;
-    }
     NSString* key = [self keyForAnswerList:questionId];
     if ([_ansRequestSeq containsObject:key]) {
         DPTrace("*****************已有%@回复列表请求**********",key);
@@ -289,7 +301,7 @@
     }
     [_ansRequestSeq addObject:key];
     
-    DPAnswerModel* replyData = [replyList lastObject];
+    DPAnswerModel* replyData = [self getQuestionLastBackendAnswer:questionId];
     __block DPAnswerListCallbackBlock callback = completion;
     [[DPHttpService shareInstance] excuteCmdToLoadPostReplyList:questionId loadType:1 lastReplyId:replyData.ansId completion:^(id json, JSONModelError *err) {
         [_ansRequestSeq removeObject:[self keyForAnswerList:questionId]];

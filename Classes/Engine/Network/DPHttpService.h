@@ -61,6 +61,7 @@
 //2007
 - (void)excuteCmdToAnswerThePost:(NSString*)content
                          questId:(NSInteger)questId
+                           ansId:(NSInteger)ansId
                           toNick:(NSString*)toNick
                         location:(NSString*)location;
 

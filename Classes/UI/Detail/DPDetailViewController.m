@@ -195,7 +195,7 @@
 - (void)reloadData
 {
     [_tableView reloadData];
-    if ([[self replyList] count] >= ONEPAGE_COUNT) {
+    if ([[self replyList] count] >= 10) {
         [self addUpPullRefreshControl];
     }
 }
@@ -245,12 +245,18 @@
     }
 }
 
-- (void)insertTmpAnswerCell:(NSString*)content
+- (void)insertTmpAnswerCell:(NSDictionary*)commandDict
 {
     DPAnswerModel* tmpData = [[DPAnswerModel alloc] init];
-    tmpData.ans = content;
-    tmpData.ansId = 0;
-    tmpData.sortId = @(0);
+    tmpData.ans = [commandDict objectForKey:@"ans"];
+    NSNumber* toAnsId = [commandDict objectForKey:@"ansId"];
+    if ([toAnsId integerValue] != 0) {
+        DPAnswerModel* toModel = [[DPAnswerUpdateService shareInstance] getAnswerDetail:[toAnsId integerValue] questionId:_postDataModel.questId];
+        if (toModel) {
+            tmpData.otherAnsData = (DPAnswerModel<Optional,ConvertOnDemand>*)toModel;
+        }
+    }
+    
     [[DPAnswerUpdateService shareInstance] insertQuestionLocalAnswer:tmpData questionId:_postDataModel.questId];
     
     [self reloadData];
@@ -301,11 +307,11 @@
 - (void)showReportAnswerSheet
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:NSLocalizedString(@"BB_TXTID_是否确定举报该回答",nil)
+                                  initWithTitle:nil //NSLocalizedString(@"BB_TXTID_是否确定举报该回答",nil)
                                   delegate:self
-                                  cancelButtonTitle:NSLocalizedString(@"BB_TXTID_取消", @"")
+                                  cancelButtonTitle:nil
                                   destructiveButtonTitle:nil
-                                  otherButtonTitles:NSLocalizedString(@"BB_TXTID_确定", @""),nil];
+                                  otherButtonTitles:NSLocalizedString(@"BB_TXTID_回答", @""),NSLocalizedString(@"BB_TXTID_举报", @""),NSLocalizedString(@"BB_TXTID_取消", @""),nil];
     actionSheet.tag = 0x1002;
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:self.view];
@@ -333,32 +339,41 @@
                 }
             }];
         }else if (actionSheet.tag == 0x1002){
-            //举报回复
-            DPAnswerModel* model = (DPAnswerModel*)[self replyList][_clickIndex];
-//            [[DPHttpService shareInstance] reportAnswer:model.ansId];
-            [[DPHttpService shareInstance] reportItem:2 type:model.ansId completion:^(id json, JSONModelError *err) {
-                BackSourceInfo* backSource = [[BackSourceInfo alloc] initWithDictionary:json error:nil];
-                DPTrace("举报结果如下：%zd - %@", backSource.statusCode, backSource.statusInfo);
-                if (backSource.statusCode == 0) {
-                    [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_举报成功",nil) atRootView:self.view];
-                }else{
-                    [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_举报失败",nil) atRootView:self.view];
-                }
-            }];
+            if(buttonIndex == 1){
+                //举报回复
+                DPAnswerModel* model = (DPAnswerModel*)[self replyList][_clickIndex];
+                //            [[DPHttpService shareInstance] reportAnswer:model.ansId];
+                [[DPHttpService shareInstance] reportItem:model.ansId type:2 completion:^(id json, JSONModelError *err) {
+                    BackSourceInfo* backSource = [[BackSourceInfo alloc] initWithDictionary:json error:nil];
+                    DPTrace("举报结果如下：%zd - %@", backSource.statusCode, backSource.statusInfo);
+                    if (backSource.statusCode == 0) {
+                        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_举报成功",nil) atRootView:self.view];
+                    }else{
+                        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_举报失败",nil) atRootView:self.view];
+                    }
+                }];
+                _clickIndex = NSNotFound;
+            }
         }
     }
 }
 
-- (void)actionSheetCancel:(UIActionSheet *)actionSheet{
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet
+{
     
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(actionSheet.tag == 0x1002 && buttonIndex == 0){
+        //回复回复
+        NSLog(@"回复回复");
+        [_replyField becomeFirstResponder];
+    }
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex{
-    
+
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -527,7 +542,11 @@
     [self moveInputBarWithKeyboardHeight:keyboardRect.size.height withDuration:animationDuration];
 }
 
-- (void)keyboardWillHide:(NSNotification *)notification {
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    //这个是决定是否是回复回复的关键点啊
+    _clickIndex = NSNotFound;
+    
     NSDictionary* userInfo = [notification userInfo];
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
@@ -578,7 +597,12 @@
             [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
             return;
         }
-        [[DPHttpService shareInstance] excuteCmdToAnswerThePost:trimmedString questId:_postDataModel.questId toNick:nil location:[[DPLbsServerEngine shareInstance] geoCodeResult].address];
+        NSInteger ansId = 0;
+        if (_clickIndex != NSNotFound) {
+            DPAnswerModel* model = (DPAnswerModel*)[self replyList][_clickIndex];
+            ansId = model.ansId;
+        }
+        [[DPHttpService shareInstance] excuteCmdToAnswerThePost:trimmedString questId:_postDataModel.questId ansId:ansId toNick:nil location:[[DPLbsServerEngine shareInstance] geoCodeResult].address];
         return;
     }
     [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_总得说点什么吧···",nil) atRootView:self.view];
