@@ -17,6 +17,7 @@
 @end
 @interface DPAnswerModel : BackendContentData
 @property (strong, nonatomic) NSNumber<Ignore>* localModel;//本地数据
+@property (strong, nonatomic) NSNumber<Optional>* floorId;//楼层次序
 
 @property (assign, nonatomic) NSNumber<Optional>* sortId; //对客户端来说，这个是做排序用
 
@@ -36,6 +37,8 @@
 @property (strong, nonatomic) NSNumber<Optional>* isMine;//是否归属个人
 
 @property (strong, nonatomic) NSNumber<Optional>* isQuester;//题主标志，0不是，1是
+
+@property (nonatomic, strong) DPAnswerModel<Optional,ConvertOnDemand>* otherAnsData;
 
 - (NSComparisonResult)AscendingSort:(DPAnswerModel*)model;
 - (NSComparisonResult)DecendingSort:(DPAnswerModel*)model;

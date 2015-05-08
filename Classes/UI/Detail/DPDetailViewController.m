@@ -495,7 +495,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DPAnswerModel* replyItem = (DPAnswerModel*)[self replyList][indexPath.row];
-    return [DPDetailReplyItemCell cellHeightForContentText:replyItem.ans];
+    return [DPDetailReplyItemCell cellHeightForContentText:replyItem.ans withFollowMsg:(replyItem.otherAnsData!=nil)];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

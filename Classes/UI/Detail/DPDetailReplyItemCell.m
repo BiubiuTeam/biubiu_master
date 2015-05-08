@@ -15,11 +15,17 @@
 
 #define REPLYITEM_CONTENT_INSETX _size_S(23)
 #define REPLYITEM_CONTENT_MARGINY _size_S(21)
-#define REPLYITEM_CONTENT_MARGIN_BOTTOM _size_S(48)
+#define REPLYITEM_CONTENT_MARGIN_BOTTOM _size_S(44)
 
 #define REPLYITEM_BOTTOM_MARGIN _size_S(12)
 #define REPLYITEM_BOTTOM_INSETX _size_S(23)
 #define REPLYITEM_BOTTOM_ITEM_INSET _size_S(30)
+
+#define REPLYITEM_FLOOR_RADIUS _size_S(30)
+#define REPLYITEM_MARGIN_LEFT _size_S(15)
+#define REPLYITEM_INSET_HOR _size_S(15)
+#define REPLYITEM_FLOOR_TOP _size_S(20)
+#define REPLYITEM_MARGIN_RIGHT _size_S(12)
 
 @interface DPDetailReplyItemCell ()
 
@@ -28,7 +34,9 @@
 @property (nonatomic, strong) DPContentLabel* contentLabel;
 
 @property (nonatomic, strong) UILabel* timeLabel;
+@property (nonatomic, strong) UILabel* floorLabel;//楼层
 
+@property (nonatomic, strong) UIButton* followFloorBtn;//回复内容提示
 @end
 
 @implementation DPDetailReplyItemCell
@@ -42,6 +50,51 @@
     self.timeLabel = nil;
     self.upvoteClickOpt = nil;
     self.downvoteClickOpt = nil;
+    self.floorLabel = nil;
+}
+
+- (UILabel *)floorLabel
+{
+    if (nil == _floorLabel) {
+        _floorLabel = [[UILabel alloc] initWithFrame:CGRectMake(REPLYITEM_MARGIN_LEFT, REPLYITEM_FLOOR_TOP, REPLYITEM_FLOOR_RADIUS, REPLYITEM_FLOOR_RADIUS)];
+        _floorLabel.textAlignment = NSTextAlignmentCenter;
+        _floorLabel.layer.cornerRadius = REPLYITEM_FLOOR_RADIUS/2;
+        _floorLabel.layer.masksToBounds = YES;
+        _floorLabel.font = [UIFont systemFontOfSize:FONT_SIZE_SMALL];
+        _floorLabel.textColor = [UIColor colorWithColorType:ColorType_WhiteTxt];
+    }
+    return _floorLabel;
+}
+
+- (UIButton *)followFloorBtn
+{
+    if (nil == _followFloorBtn) {
+        _followFloorBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, REPLYITEM_FOLLOW_HEIGHT)];
+        _followFloorBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+        _followFloorBtn.backgroundColor = [UIColor clearColor];//RGBACOLOR(0xda, 0xda, 0xda, 1);
+        _followFloorBtn.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_SMALL];
+        _followFloorBtn.titleLabel.numberOfLines = 1;
+        UIImage* image = LOAD_ICON_USE_POOL_CACHE(@"bb_detail_reply.png");
+        image = [image stretchableImageWithLeftCapWidth:20 topCapHeight:14];
+        [_followFloorBtn setBackgroundImage:image forState:UIControlStateNormal];
+        [_followFloorBtn setBackgroundImage:image forState:UIControlStateHighlighted];
+        _followFloorBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        [_followFloorBtn setTitleColor:[UIColor colorWithColorType:ColorType_MediumTxt] forState:UIControlStateNormal];
+        
+        UIEdgeInsets insets = {7, 8, 0, 8};
+        _followFloorBtn.contentEdgeInsets = insets;
+    }
+    return _followFloorBtn;
+}
+
+- (void)setFollowFloorNumber:(NSInteger)number followMsg:(NSString*)msg
+{
+    NSString* text = [NSString stringWithFormat:@"回复%zd楼：%@",number,msg];
+    [_followFloorBtn setTitle:text forState:UIControlStateNormal];
+    [_followFloorBtn sizeToFit];
+
+    _followFloorBtn.width = MIN(_contentLabel.width, _followFloorBtn.width);
+    _followFloorBtn.height = REPLYITEM_FOLLOW_HEIGHT;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -50,15 +103,37 @@
         self.upvoteClickOpt = nil;
         self.downvoteClickOpt = nil;
         
-        _contentLabel = [[DPContentLabel alloc] initWithFrame:CGRectMake(REPLYITEM_CONTENT_INSETX, REPLYITEM_CONTENT_MARGINY, SCREEN_WIDTH - 2*REPLYITEM_CONTENT_INSETX , 0) contentType:ContentType_Left];
+        CGRect cframe = CGRectMake(REPLYITEM_CONTENT_INSETX, REPLYITEM_FLOOR_TOP + _size_S(5), SCREEN_WIDTH - 2*REPLYITEM_CONTENT_INSETX , 0);
+        cframe.origin.x = REPLYITEM_MARGIN_LEFT + REPLYITEM_INSET_HOR + REPLYITEM_FLOOR_RADIUS;
+        cframe.size.width = SCREEN_WIDTH - cframe.origin.x - REPLYITEM_MARGIN_RIGHT;
+        _contentLabel = [[DPContentLabel alloc] initWithFrame:cframe contentType:ContentType_Left];
         _contentLabel.numberOfLines = 0;
         _contentLabel.font = [DPFont systemFontOfSize:FONT_SIZE_MIDDLE];
         [_contentLabel setTextColor:[UIColor colorWithColorType:ColorType_MediumTxt]];
         [self.contentView addSubview:_contentLabel];
         
+        [self.contentView addSubview:self.floorLabel];
         [self initializeBottomViews];
     }
     return self;
+}
+
+- (void)setFloorNumber:(NSInteger)number
+{
+    switch (number%3) {
+        case 0:
+            _floorLabel.backgroundColor = [UIColor colorWithColorType:ColorType_Green];
+            break;
+        case 1:
+            _floorLabel.backgroundColor = [UIColor colorWithColorType:ColorType_Pink];
+            break;
+        case 2:
+            _floorLabel.backgroundColor = [UIColor colorWithColorType:ColorType_Yellow];
+            break;
+        default:
+            break;
+    }
+    _floorLabel.text = [NSString stringWithFormat:@"%zd",number];
 }
 
 - (void)initializeBottomViews
@@ -150,7 +225,7 @@
 {
     DPAnswerModel* model = [self replyModel];
     [_contentLabel setContentText:model.ans];
-    
+    [self setFloorNumber:[model.floorId integerValue]];
     [_timeLabel setText:[NSDate compareCurrentTime:[NSDate dateWithTimeIntervalSince1970:model.pubTime]]];
     [_timeLabel sizeToFit];
     [_upvoteArea setMessageText:[NSString stringWithFormat:@"%zd",model.likeNum]];
@@ -159,8 +234,21 @@
     [_upvoteArea setSelected:[model.likeFlag integerValue] == 1];
     [_downvoteArea setSelected:[model.likeFlag integerValue] == 2];
 
-    _contentLabel.width = SCREEN_WIDTH - 2*REPLYITEM_CONTENT_INSETX;
-    self.height = _contentLabel.height + [DPDetailReplyItemCell defaultHeight];
+    _contentLabel.width = SCREEN_WIDTH - _contentLabel.left - REPLYITEM_MARGIN_RIGHT;
+    
+    CGFloat tHeight =  _contentLabel.height + [DPDetailReplyItemCell defaultHeight];
+    
+    if (model.otherAnsData) {
+        [self.contentView addSubview:self.followFloorBtn];
+        [self setFollowFloorNumber:[[model.otherAnsData floorId] integerValue] followMsg:[model.otherAnsData ans]];
+        _followFloorBtn.left = _contentLabel.left;
+        _followFloorBtn.top = _contentLabel.bottom;
+        tHeight += REPLYITEM_FOLLOW_HEIGHT;
+    }else{
+        [_followFloorBtn removeFromSuperview];
+        self.followFloorBtn = nil;
+    }
+    self.height = tHeight;
 }
 
 - (void)layoutSubviews
@@ -203,11 +291,14 @@
     return REPLYITEM_CONTENT_MARGINY + REPLYITEM_CONTENT_MARGIN_BOTTOM;
 }
 
-+ (CGFloat)cellHeightForContentText:(NSString*)content
++ (CGFloat)cellHeightForContentText:(NSString*)content withFollowMsg:(BOOL)withfm
 {
     CGFloat height = [self defaultHeight];
     if ([content length]) {
         height += [DPContentLabel caculateHeightOfTxt:content contentType:ContentType_Left maxWidth:(SCREEN_WIDTH - 2*REPLYITEM_CONTENT_INSETX)];
+    }
+    if (withfm) {
+        height += REPLYITEM_FOLLOW_HEIGHT;
     }
     return height;
 }

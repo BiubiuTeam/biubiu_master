@@ -113,7 +113,7 @@
 - (void)dealloc
 {
     [self stopAnimation];
-    NSLog(@"\n--------------销毁--------------");
+    DPTrace(@"\n--------------销毁--------------");
 }
 
 @end

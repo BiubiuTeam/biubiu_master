@@ -264,6 +264,9 @@
         listCell.contentState = ListStyleViewState_Close;
     }
     
+    if (_currentOpenIndex == NSNotFound) {
+        [listCell closeReplyViewOpt];
+    }
     return listCell;
 }
 
