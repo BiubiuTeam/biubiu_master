@@ -43,11 +43,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPlatformAccountInfoUpdate:) name:kNotification_UpdateAccountInfo object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostHomePageCallback:) name:kNotification_NewPostCallBack object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostHomePageCallback:) name:kNotification_AnswerPostCallBack object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPostHomePageCallback:) name:kNotification_FeedbackPost object:nil];
-    
     [self resetRightBarButtonWithNormal:@"bb_homepage_set_normal.png" highLighted:@"bb_homepage_set_press.png" andSel:@selector(openSettingViewController)];
     
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -88,10 +83,6 @@
     [super viewDidDisappear:animated];
     
     [_bgImgView stopRunloopProgress];
-}
-
-- (void)newPostHomePageCallback:(NSNotification*)notification
-{
 }
 
 //- (void)onPlatformAccountInfoUpdate:(NSNotification*)notification

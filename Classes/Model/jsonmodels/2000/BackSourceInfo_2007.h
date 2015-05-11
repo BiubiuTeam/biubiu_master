@@ -10,7 +10,10 @@
 
 
 #import "BackSourceInfo.h"
+#import "BackSourceInfo_2005.h"
 
 @interface BackSourceInfo_2007 : BackSourceInfo
+
+@property (nonatomic, strong) DPAnswerModel<Optional,ConvertOnDemand>* returnData;
 
 @end

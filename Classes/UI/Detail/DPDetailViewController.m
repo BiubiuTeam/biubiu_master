@@ -236,13 +236,29 @@
         [_replyField clearTextContent];
         [_replyField resignFirstResponderEx];
         
-        [self insertTmpAnswerCell:[userInfo objectForKey:kNotification_CmdObject]];
+        if(NO == [self insertCallbackAnswerCell:[userInfo objectForKey:kNotification_ReturnObject]]){
+            [self insertTmpAnswerCell:[userInfo objectForKey:kNotification_CmdObject]];
+        }
         _postDataModel.ansNum++;
         [[DPQuestionUpdateService shareInstance] replaceMemoryCacheQuestion:_postDataModel];
     }else{
         DPTrace("回答失败");
         [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_回答操作失败",nil) atRootView:self.view];
     }
+}
+
+- (BOOL)insertCallbackAnswerCell:(DPAnswerModel*)model
+{
+    if (model) {
+        model.localModel = @YES;
+        [[DPAnswerUpdateService shareInstance] insertAnswerToQuestion:model questionId:_postDataModel.questId];
+        [self reloadData];
+        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:([[self replyList] count]-1) inSection:0];
+        [_tableView scrollToRowAtIndexPath:indexPath
+                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        return YES;
+    }
+    return NO;
 }
 
 - (void)insertTmpAnswerCell:(NSDictionary*)commandDict

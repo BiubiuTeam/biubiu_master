@@ -16,6 +16,7 @@
 - (void)forceToUpdateAnswerList:(NSInteger)questionId demandedCount:(NSInteger)count;
 - (void)updateDemandedAnswer:(NSInteger)ansId questionId:(NSInteger)questionId countType:(DPCountSrcType)srcType;
 - (void)appendQuestionAnswerList:(NSInteger)questionId answers:(NSArray*)list;
+- (void)insertAnswerToQuestion:(DPAnswerModel*)model questionId:(NSInteger)questionId;
 - (void)insertQuestionLocalAnswer:(DPAnswerModel*)model questionId:(NSInteger)questionId;
 
 - (DPAnswerModel*)getAnswerDetail:(NSInteger)ansId questionId:(NSInteger)questId;

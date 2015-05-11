@@ -16,6 +16,7 @@
 
 #import "BackSourceInfo_2001.h"
 #import "BackSourceInfo_2009.h"
+#import "BackSourceInfo_2007.h"
 
 #import "BackSourceInfo_3001.h"
 #import "BackSourceInfo_3002.h"
@@ -332,9 +333,14 @@
     
     [self postRequestWithBodyDictionary:body completion:^(id json, JSONModelError *err) {
         if (nil == err) {
-            BackSourceInfo* backSource = [[BackSourceInfo alloc] initWithDictionary:json error:nil];
+            BackSourceInfo_2007* backSource = [[BackSourceInfo_2007 alloc] initWithDictionary:json error:nil];
             [userInfo setObject:@(backSource.statusCode) forKey:kNotification_StatusCode];
-            [userInfo setObject:backSource.statusInfo forKey:kNotification_StatusInfo];
+            if ([backSource.statusInfo length]) {
+                [userInfo setObject:backSource.statusInfo forKey:kNotification_StatusInfo];
+            }
+            if (backSource.returnData) {
+                [userInfo setObject:backSource.returnData forKey:kNotification_ReturnObject];
+            }
         }else{
             [userInfo setObject:@(-1) forKey:kNotification_StatusCode];
             [userInfo setObject:[NSString stringWithFormat:@"%@",[err description]] forKey:kNotification_StatusInfo];

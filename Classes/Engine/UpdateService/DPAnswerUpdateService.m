@@ -199,6 +199,19 @@
     }
 }
 
+- (void)insertAnswerToQuestion:(DPAnswerModel*)model questionId:(NSInteger)questionId
+{
+    if (model) {
+        NSArray* orList = [self getQuestionAnswerList:questionId];
+        NSMutableArray* mutList = [[NSMutableArray alloc] init];
+        if ([orList count]) {
+            [mutList addObjectsFromArray:orList];
+        }
+        [mutList addObject:model];
+        [_answerListSet setObject:mutList forKey:[self keyForAnswerList:questionId]];
+    }
+}
+
 - (void)insertQuestionLocalAnswer:(DPAnswerModel*)model questionId:(NSInteger)questionId
 {
     if (model) {
