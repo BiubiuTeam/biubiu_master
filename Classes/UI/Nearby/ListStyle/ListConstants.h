@@ -18,6 +18,6 @@
 
 #define CELLDEGAULTHEIGHT _size_S(156.0)
 #define CELLBOTTOMHEIGHT _size_S(26.0)
-#define DANKUDEGAULTHEIGHT _size_S(160.0)
+#define DANKUDEGAULTHEIGHT _size_S(180.0)
 
 #endif

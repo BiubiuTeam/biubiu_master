@@ -356,14 +356,12 @@
 
 - (void)reloadIndexPathsWithCallback:(NSArray*)indexPaths
 {
-    [CATransaction begin];
-    [CATransaction setCompletionBlock:^{
+    [self.tableView beginSmartUpdatesForDuration:0.25];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic completion:^{
         [self pullRefreshControlRefreshDone];
         [self pullRefreshControlUpdatePosition];
     }];
-    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    [CATransaction commit];
+    [self.tableView endSmartUpdates];
 }
 
 #pragma mark - refresh opt

@@ -107,6 +107,7 @@
 		552B15471A821E5000A3E47A /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 552B15431A821E5000A3E47A /* whiteArrow@2x.png */; };
 		552B17131AC145980072812C /* DPSociatyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 552B17121AC145980072812C /* DPSociatyModel.m */; };
 		552B17161AC14AB40072812C /* DPUnionCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 552B17151AC14AB40072812C /* DPUnionCreateViewController.m */; };
+		552D9C061B0088A3003B6523 /* UITableView+AnimationControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 552D9C051B0088A3003B6523 /* UITableView+AnimationControl.m */; };
 		552E62791AFB4E4400F5914A /* AnimateLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 552E62781AFB4E4400F5914A /* AnimateLabel.m */; };
 		552F95921AC30F0300E37B58 /* DPBaseUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 552F958D1AC30F0300E37B58 /* DPBaseUploader.m */; };
 		552F95931AC30F0300E37B58 /* DPBaseUploadMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 552F958F1AC30F0300E37B58 /* DPBaseUploadMgr.m */; };
@@ -361,6 +362,8 @@
 		552B17121AC145980072812C /* DPSociatyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPSociatyModel.m; sourceTree = "<group>"; };
 		552B17141AC14AB40072812C /* DPUnionCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPUnionCreateViewController.h; sourceTree = "<group>"; };
 		552B17151AC14AB40072812C /* DPUnionCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPUnionCreateViewController.m; sourceTree = "<group>"; };
+		552D9C041B0088A3003B6523 /* UITableView+AnimationControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+AnimationControl.h"; sourceTree = "<group>"; };
+		552D9C051B0088A3003B6523 /* UITableView+AnimationControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+AnimationControl.m"; sourceTree = "<group>"; };
 		552E62771AFB4E4400F5914A /* AnimateLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimateLabel.h; sourceTree = "<group>"; };
 		552E62781AFB4E4400F5914A /* AnimateLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimateLabel.m; sourceTree = "<group>"; };
 		552F958C1AC30F0300E37B58 /* DPBaseUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPBaseUploader.h; sourceTree = "<group>"; };
@@ -766,6 +769,8 @@
 				5552022A1A7F854000CE528D /* NSDictionaryAdditions.m */,
 				55EEB2C61A8DD7CA00C6E17A /* DPTabBarController.h */,
 				55EEB2C71A8DD7CA00C6E17A /* DPTabBarController.m */,
+				552D9C041B0088A3003B6523 /* UITableView+AnimationControl.h */,
+				552D9C051B0088A3003B6523 /* UITableView+AnimationControl.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1463,6 +1468,7 @@
 				55357C401AC8E697004BA079 /* DPNavLocationView.m in Sources */,
 				5502FD991A7E5C1A005FF4C3 /* DPListStyleContentView.m in Sources */,
 				55DBDAD21AC54CA000D529B2 /* DPAsyncImageView.m in Sources */,
+				552D9C061B0088A3003B6523 /* UITableView+AnimationControl.m in Sources */,
 				552111D31A7CA98C0026E334 /* BackSourceInfo.m in Sources */,
 				552111BF1A7CA98C0026E334 /* BackSourceInfo_2001.m in Sources */,
 				5502FDC71A7E69DA005FF4C3 /* DPDetailReplyItemCell.m in Sources */,

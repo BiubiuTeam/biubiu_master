@@ -40,7 +40,7 @@ static int DanKuLines = 5;
     static DPListStyleReplyView* s_instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_instance = [[DPListStyleReplyView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,DP_CELL_DEFAULT_HEIGHT)];
+        s_instance = [[DPListStyleReplyView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,DANKUDEGAULTHEIGHT)];
     });
     return s_instance;
 }

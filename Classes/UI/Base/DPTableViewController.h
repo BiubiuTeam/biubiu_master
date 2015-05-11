@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "UITableView+AnimationControl.h"
 #import "EGORefreshTableHeaderView.h"
 
 typedef NS_ENUM(NSUInteger, TableViewType) {

@@ -278,7 +278,7 @@
     }
     if (_currentOpenIndex == indexPath.row) {
         _currentOpenIndex = NSNotFound;
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self reloadIndexPathsWithCallback:@[indexPath]];
         return;
     }
     
@@ -288,18 +288,32 @@
     if (lastIndex != NSNotFound) {
         [arr addObject:[NSIndexPath indexPathForRow:lastIndex inSection:indexPath.section]];
     }
-    [tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self reloadIndexPathsWithCallback:arr];
 }
+
+
+- (void)reloadIndexPathsWithCallback:(NSArray*)indexPaths
+{
+    [self.tableView beginSmartUpdatesForDuration:0.25];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic completion:^{
+        [self pullRefreshControlRefreshDone];
+        [self pullRefreshControlUpdatePosition];
+    }];
+    [self.tableView endSmartUpdates];
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_viewType != TableViewType_Plain) {
         return SCREEN_HEIGHT - [self getNavStatusBarHeight];
     }
+    DPQuestionModel* model = [self getQuestionFromSource:indexPath.row];
+    
     if (_currentOpenIndex == indexPath.row) {
-        return DANKUDEGAULTHEIGHT + CELLDEGAULTHEIGHT + CELLBOTTOMHEIGHT;
+        return DANKUDEGAULTHEIGHT + [DPListStyleViewCell cellHeightForContentText:model.quest] + CELLBOTTOMHEIGHT;
     }
-    return CELLDEGAULTHEIGHT;
+    return [DPListStyleViewCell cellHeightForContentText:model.quest];
 }
 
 - (void)showErrorTips:(NSString*)message
