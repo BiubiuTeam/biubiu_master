@@ -20,6 +20,12 @@ static const char kKeyChainUDIDAccessGroup[] = "8UN5C7NJAX.com.nuxsoft.biubiu";
 //$(PROJECT_DIR)/Classes/Extention/UDID_Tools/KeychainAccessGroups.plist
 @implementation SvUDIDTools
 
++ (NSString*)aliasUdid
+{
+    NSString* udid = [self UDID];
+    return [[udid stringByReplacingOccurrencesOfString:@"-" withString:@""] lowercaseString];
+}
+
 + (NSString*)UDID
 {
 //    return @"D21E5769-3D1F-4E16-96FC-DBAD70CFBD16";

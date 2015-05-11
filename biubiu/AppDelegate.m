@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "AppDelegate+JPush.h"
+
 #import "AppDelegate+BaiduMap.h"
 #import "DPHttpService.h"
 
@@ -31,7 +33,9 @@
     [[DPHttpService shareInstance] registOrLoginPlatform];
     // Override point for customization after application launch.
     [self registBaiduMap];
-
+    //注册JPush
+    [self registerJPushWithOptions:launchOptions];
+    
     _viewControllers = [[NSMutableArray alloc] initWithCapacity:3];
     //UI
     DPNearbyViewController* nearbyViewCtr = [[DPNearbyViewController alloc] init];
@@ -95,18 +99,26 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    // 程序返回后台 重置桌面icon未读数
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    //程序进入前台
+    
+    [application setApplicationIconBadgeNumber:0];
+    [application cancelAllLocalNotifications];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [BMKMapView didForeGround];
     [[DPLbsServerEngine shareInstance] forceToUpdateLocation];
+    
+//    if (application) {
+//        <#statements#>
+//    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -128,13 +140,10 @@
 
 - (void)updateTabCounter
 {
-    NSInteger total = [[DPLocalDataManager shareInstance] numberOfUnreadMessage];
     UITabBarItem *item = self.tabBarController.tabBar.items[2];
-    
     [[self redPointView] removeFromSuperview];
-    if(total != 0){
+    if([[DPLocalDataManager shareInstance] hasUnreadMessage]){
         [self.tabBarController.tabBar addSubview:[self redPointView]];
-//        item.badgeValue = (total == 0) ? nil : [NSString stringWithFormat:@"%zd", total];
     }else{
         item.badgeValue = nil;
     }

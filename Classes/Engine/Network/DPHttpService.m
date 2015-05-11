@@ -21,6 +21,7 @@
 #import "BackSourceInfo_3002.h"
 
 #import "BackSourceInfo_5001.h"
+#import "APService.h"
 @implementation DPHttpService
 
 + (DPHttpService*)shareInstance
@@ -39,6 +40,8 @@
 {
     NSMutableDictionary* body = [NSMutableDictionary dictionary];
     [body setObject:[NSNumber numberWithInteger:0x1001] forKey:@"cmd"];
+    [body setObject:[SvUDIDTools aliasUdid] forKey:@"alias"];
+    
     [self postRequestWithBodyDictionary:body completion:^(id json, JSONModelError *err) {
         NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] init];
         if (err == nil) {
@@ -63,7 +66,21 @@
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotification_RegistCallBack object:nil userInfo:userInfo];
     }];
+    
+    
+    [APService setTags:nil
+                 alias:[SvUDIDTools aliasUdid]
+      callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                target:self];
 }
+
+- (void)tagsAliasCallback:(int)iResCode
+                     tags:(NSSet *)tags
+                    alias:(NSString *)alias
+{
+    NSLog(@"TagsAlias回调:%zd, %@", iResCode,alias);
+}
+
 //1004
 - (void)updatePlatformInfo
 {

@@ -25,20 +25,14 @@
 
 #define UNREAD_REQ_CACHE_TIME (60)
 
-#define FAIL_MAX_COUNT (5)
-
 @interface DPLocalDataManager ()
 {
     NSDate* _platformReqDate;
     BOOL _reqUnreadMessage;
     NSInteger _lastUnReadCount;
-    
-    NSUInteger _failedUnReadReqCount;
 }
-@property (nonatomic, strong) DPPushModel* pushMsgModel; //推送消息
 
 @property (nonatomic, copy) DPPlatformInfoBlock platformCallback;
-
 @property (nonatomic, strong) NSMutableDictionary* unReadDictionary;//未读消息
 @end
 
@@ -54,16 +48,6 @@
     return _sDataMgr;
 }
 
-/**  *得到本机现在用的语言  * en:英文  zh-Hans:简体中文   zh-Hant:繁体中文    ja:日本  ......  */
-+ (NSString*)getPreferredLanguage
-{
-    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
-    NSArray* languages = [defs objectForKey:@"AppleLanguages"];
-    NSString* preferredLang = [languages objectAtIndex:0];
-    NSLog(@"Preferred Language:%@", preferredLang);
-    return preferredLang;
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -72,7 +56,6 @@
     self.platformCallback = nil;
     self.platformAccInfo = nil;
     self.messageList = nil;
-    self.pushMsgModel = nil;
 }
 
 - (instancetype)init
@@ -81,9 +64,7 @@
         self.msgListCallback = nil;
         self.platformAccInfo = nil;
         self.platformCallback = nil;
-        self.pushMsgModel = nil;
-        
-        _failedUnReadReqCount = 0;
+
         _reqUnreadMessage = NO;
         _lastUnReadCount = 0;
         
@@ -124,41 +105,18 @@
     }
 }
 
-#pragma mark -轮询操作
-- (void)runroopToCheckNewMessage
-{
-    if(_pushMsgModel == nil || [_pushMsgModel.unreadNum integerValue] < 1){
-        if (_reqUnreadMessage == NO) {
-            [self checkNewMessageUpdate];
-        }
-    }else{
-        DPTrace("未读消息轮询，已有未读标记");
-    }
-    [NSTimer scheduledTimerWithTimeInterval:UNREAD_REQ_CACHE_TIME target:self selector:@selector(runroopToCheckNewMessage) userInfo:nil repeats:NO];
-}
-
 - (void)onPlatformRegistCallback:(NSNotification*)notification
 {
     NSDictionary* userInfo = notification.userInfo;
     NSInteger retCode = [[userInfo objectForKey:kNotification_StatusCode] integerValue];
     if (retCode == 0 || retCode == 1) {
         [[DPHttpService shareInstance] updatePlatformInfo];
-        
-        [self runroopToCheckNewMessage];
     }else{
         DPTrace("需要提示用户，账户注册失败否？");
     }
 }
 
 #pragma mark - 对外接口
-
-- (NSInteger)numberOfUnreadMessage
-{
-    if (_pushMsgModel == nil) {
-        return 0;
-    }
-    return [_pushMsgModel.unreadNum integerValue];
-}
 
 - (BOOL)messageReadTag:(NSInteger)messageId
 {
@@ -209,28 +167,6 @@
     }
 }
 
-//请求新数据
-- (BOOL)hasNewMessageUnRead
-{
-    if (_pushMsgModel /*&& [_pushMsgModel.unreadNum integerValue] > _lastUnReadCount*/) {
-        return YES;
-    }
-    //如果连续请求失败10次，则认为后台挂掉了
-    if (_failedUnReadReqCount > FAIL_MAX_COUNT) {
-        return YES;
-    }
-    return NO;
-}
-
-- (void)removeNewMessageModel
-{
-    _lastUnReadCount = [_pushMsgModel.unreadNum integerValue];
-    self.pushMsgModel = nil;
-    _failedUnReadReqCount = 0;
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [delegate updateTabCounter];
-}
-
 - (void)deleteUnreadMessageAtIndex:(NSInteger)index
 {
     if (index < [_messageList count]) {
@@ -262,39 +198,13 @@
     }];
 }
 
-- (void)checkNewMessageUpdate
-{
-    float lat = [[DPLbsServerEngine shareInstance] latitude];
-    float lon = [[DPLbsServerEngine shareInstance] longitude];
-    
-    [[DPHttpService shareInstance] excuteCmdToPullPushInfo:^(id json, JSONModelError *err) {
-        if (json) {
-            BackSourceInfo_4301* model = [[BackSourceInfo_4301 alloc] initWithDictionary:json error:&err];
-            if (model.statusCode == 0) {
-                self.pushMsgModel = model.returnData;
-                DPTrace("更新推送消息成功，当前新消息状况如下：%@",_pushMsgModel);
-            }else{
-                self.pushMsgModel = nil;
-                DPTrace("更新推送消息失败1");
-            }
-        }else{
-            self.pushMsgModel = nil;
-            DPTrace("更新推送消息失败2");
-            DPTrace("%@",err);
-            if (err) {
-                _failedUnReadReqCount++;
-            }
-        }
-        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        [delegate updateTabCounter];
-    } latitude:lat logitude:lon];
-}
-
 //加载当前新消息列表
 - (void)loadPushMessageList:(NSInteger)type lastId:(NSInteger)lastId
 {
     if (type == 2) {
-        [self removeNewMessageModel];
+        _hasUnreadMessage = NO;
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        [delegate updateTabCounter];
     }
     
     float lat = [[DPLbsServerEngine shareInstance] latitude];

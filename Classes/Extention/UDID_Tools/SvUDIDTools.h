@@ -10,7 +10,10 @@
 
 @interface SvUDIDTools : NSObject
 
-
+/**
+ *  JPush alias
+ */
++ (NSString*)aliasUdid;
 /*
  * @brief obtain Unique Device Identity
  */

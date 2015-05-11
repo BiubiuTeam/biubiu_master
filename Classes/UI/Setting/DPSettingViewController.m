@@ -74,14 +74,14 @@
     _tableDataSrc = nil;
     _tableDataSrc = [NSMutableArray new];
     
-//    NSMutableArray* section0 = [NSMutableArray array];
-//    SettingCellModel* tmp1 = [SettingCellModel new];
-//    tmp1.cellTitleTxt = NSLocalizedString(@"BB_TXTID_新评论通知",@"");
-//    tmp1.selectionStyle = UITableViewCellSelectionStyleNone;
-//    tmp1.accessoryType = DP_TableCell_AccessorySwitch;
-//    tmp1.cellValue = DPCellValue_NewReplyNotify;
-//    [section0 addObject:tmp1];
-
+    NSMutableArray* section0 = [NSMutableArray array];
+    SettingCellModel* tmp1 = [SettingCellModel new];
+    tmp1.cellTitleTxt = NSLocalizedString(@"BB_TXTID_新评论通知",@"");
+    tmp1.selectionStyle = UITableViewCellSelectionStyleNone;
+    tmp1.accessoryType = DP_TableCell_AccessorySwitch;
+    tmp1.cellValue = DPCellValue_NewReplyNotify;
+    [section0 addObject:tmp1];
+    [_tableDataSrc addObject:section0];
 
     NSMutableArray* section1 = [NSMutableArray array];
     SettingCellModel* tmp2 = [SettingCellModel new];

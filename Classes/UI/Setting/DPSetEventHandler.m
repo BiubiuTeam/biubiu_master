@@ -62,6 +62,7 @@
     
     switch (cellModel.cellValue) {
         case DPCellValue_NewReplyNotify:
+            break;
         case DPCellValue_Nonthing:{
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             [pasteboard setString:cellModel.cellDetailTxt];

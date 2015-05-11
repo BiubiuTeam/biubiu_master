@@ -80,7 +80,7 @@ static int DanKuLines = 5;
         }break;
         case INFOTYPE_PROGRESS:
         {
-            _informationLabel.text = @"一大波留言正在赶来 ^_^";
+            _informationLabel.text = nil;//@"一大波留言正在赶来 ^_^";
         }break;
         default:
             break;
@@ -216,7 +216,7 @@ static int DanKuLines = 5;
 //            maxWith = MAX(maxWith, dankuLineLength[i]);
             maxWith += dankuLineLength[i];
         }
-        int time = MAX(1.5,abs((maxWith/DanKuLines-SCREEN_WIDTH)/(1.2*60)));
+        int time = MAX(2,abs((maxWith/DanKuLines-SCREEN_WIDTH)/(1.2*60)));
         
          _runningLoop = NO;
         [self performSelector:@selector(setup) withObject:nil afterDelay:time];

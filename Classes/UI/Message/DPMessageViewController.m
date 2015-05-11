@@ -61,7 +61,7 @@
 
 - (void)updateMessageListOpt
 {
-    if ([[DPLocalDataManager shareInstance] hasNewMessageUnRead] == NO) {
+    if ([[DPLocalDataManager shareInstance] hasUnreadMessage] == NO) {
         DPTrace("不需要触发加载更多");
         return;
     }

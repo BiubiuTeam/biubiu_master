@@ -132,6 +132,11 @@
 		556D872B1A7FBDCA0021696D /* SvUDIDTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 556D87291A7FBDCA0021696D /* SvUDIDTools.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5578AD791AC29CBD00303C9A /* DPHttpService+Sociaty.m in Sources */ = {isa = PBXBuildFile; fileRef = 5578AD781AC29CBD00303C9A /* DPHttpService+Sociaty.m */; };
 		5578AD7C1AC2ED4500303C9A /* DPUnionPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5578AD7B1AC2ED4500303C9A /* DPUnionPostViewController.m */; };
+		55A470601AFCBE8900569F7E /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A4705F1AFCBE8900569F7E /* libPushSDK-1.8.3.a */; };
+		55A470621AFCBF4800569F7E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A470611AFCBF4800569F7E /* CoreTelephony.framework */; };
+		55A470641AFCBF7200569F7E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A470631AFCBF7200569F7E /* libz.dylib */; };
+		55A470661AFCC04200569F7E /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55A470651AFCC04200569F7E /* PushConfig.plist */; };
+		55A470691AFCC12100569F7E /* AppDelegate+JPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A470681AFCC12100569F7E /* AppDelegate+JPush.m */; };
 		55D162CA1AAAC3660092CFC7 /* DPQustionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D162C91AAAC3660092CFC7 /* DPQustionPool.m */; };
 		55D3FE681A7FE088000A0B8B /* DPLocalDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D3FE671A7FE088000A0B8B /* DPLocalDataManager.m */; };
 		55D808731ACB9D1F00AB4679 /* DPLocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D808721ACB9D1F00AB4679 /* DPLocationModel.m */; };
@@ -460,6 +465,13 @@
 		5578AD781AC29CBD00303C9A /* DPHttpService+Sociaty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DPHttpService+Sociaty.m"; sourceTree = "<group>"; };
 		5578AD7A1AC2ED4500303C9A /* DPUnionPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPUnionPostViewController.h; sourceTree = "<group>"; };
 		5578AD7B1AC2ED4500303C9A /* DPUnionPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPUnionPostViewController.m; sourceTree = "<group>"; };
+		55A4705E1AFCBE8900569F7E /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		55A4705F1AFCBE8900569F7E /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
+		55A470611AFCBF4800569F7E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		55A470631AFCBF7200569F7E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		55A470651AFCC04200569F7E /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
+		55A470671AFCC12100569F7E /* AppDelegate+JPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+JPush.h"; sourceTree = "<group>"; };
+		55A470681AFCC12100569F7E /* AppDelegate+JPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+JPush.m"; sourceTree = "<group>"; };
 		55D162C81AAAC3660092CFC7 /* DPQustionPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPQustionPool.h; sourceTree = "<group>"; };
 		55D162C91AAAC3660092CFC7 /* DPQustionPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPQustionPool.m; sourceTree = "<group>"; };
 		55D3FE661A7FE088000A0B8B /* DPLocalDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPLocalDataManager.h; sourceTree = "<group>"; };
@@ -534,6 +546,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55A470641AFCBF7200569F7E /* libz.dylib in Frameworks */,
+				55A470621AFCBF4800569F7E /* CoreTelephony.framework in Frameworks */,
 				552111FC1A7CBD650026E334 /* Security.framework in Frameworks */,
 				553046891AC5C1600069A37C /* libbaidumapapi.a in Frameworks */,
 				5530FC8F1AC3E245001C5E42 /* OpenGLES.framework in Frameworks */,
@@ -543,6 +557,7 @@
 				552112041A7CBD840026E334 /* Social.framework in Frameworks */,
 				552112021A7CBD7D0026E334 /* Accounts.framework in Frameworks */,
 				552112001A7CBD750026E334 /* CFNetwork.framework in Frameworks */,
+				55A470601AFCBE8900569F7E /* libPushSDK-1.8.3.a in Frameworks */,
 				552111FE1A7CBD6D0026E334 /* MobileCoreServices.framework in Frameworks */,
 				552111FA1A7CBD5C0026E334 /* SystemConfiguration.framework in Frameworks */,
 				552111F81A7CBD530026E334 /* LocalAuthentication.framework in Frameworks */,
@@ -560,6 +575,8 @@
 		4AC4E7EA2C1B7724DE0BCC73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				55A470631AFCBF7200569F7E /* libz.dylib */,
+				55A470611AFCBF4800569F7E /* CoreTelephony.framework */,
 				5530FC8E1AC3E245001C5E42 /* OpenGLES.framework */,
 				5527CB2B1A809B6200959058 /* QuartzCore.framework */,
 				5527CB291A809B5800959058 /* CoreGraphics.framework */,
@@ -706,11 +723,14 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		5521112D1A7C9FEA0026E334 /* Libs */ = {
+		5521112D1A7C9FEA0026E334 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				55A4705E1AFCBE8900569F7E /* APService.h */,
+				55A4705F1AFCBE8900569F7E /* libPushSDK-1.8.3.a */,
+				55A470651AFCC04200569F7E /* PushConfig.plist */,
 			);
-			path = Libs;
+			path = lib;
 			sourceTree = "<group>";
 		};
 		552111341A7CA0A50026E334 /* Base */ = {
@@ -1247,7 +1267,7 @@
 			children = (
 				5521112F1A7CA0040026E334 /* resource */,
 				552111261A7C9FEA0026E334 /* Classes */,
-				5521112D1A7C9FEA0026E334 /* Libs */,
+				5521112D1A7C9FEA0026E334 /* lib */,
 				55F4DDF61A7BBCFE00A7657C /* biubiu */,
 				55F4DDF51A7BBCFE00A7657C /* Products */,
 				591FC847EDEB3319646E29A8 /* Pods */,
@@ -1274,6 +1294,8 @@
 				55DA93881A91F59300E01A65 /* iTunesArtwork */,
 				55F4DDFB1A7BBCFE00A7657C /* AppDelegate.h */,
 				55F4DDFC1A7BBCFE00A7657C /* AppDelegate.m */,
+				55A470671AFCC12100569F7E /* AppDelegate+JPush.h */,
+				55A470681AFCC12100569F7E /* AppDelegate+JPush.m */,
 				5530468C1AC5C2EB0069A37C /* AppDelegate+BaiduMap.h */,
 				5530468D1AC5C2EB0069A37C /* AppDelegate+BaiduMap.mm */,
 				55F4DE011A7BBCFE00A7657C /* Main.storyboard */,
@@ -1339,6 +1361,11 @@
 					55F4DDF31A7BBCFE00A7657C = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 8UN5C7NJAX;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1371,6 +1398,7 @@
 				553ECE151AA46B9900880284 /* Localizable.strings in Resources */,
 				5530468B1AC5C1600069A37C /* readme.txt in Resources */,
 				5530468A1AC5C1600069A37C /* mapapi.bundle in Resources */,
+				55A470661AFCC04200569F7E /* PushConfig.plist in Resources */,
 				55EFDB871ACC585C00A4851F /* AppIcon120x120.png in Resources */,
 				552B15471A821E5000A3E47A /* whiteArrow@2x.png in Resources */,
 				55DA93901A91F7D300E01A65 /* Default-667h@2x.png in Resources */,
@@ -1538,6 +1566,7 @@
 				55F92B261A8C56EF00176084 /* BackSourceInfo_4301.m in Sources */,
 				5502FD7A1A7DCC27005FF4C3 /* DPMessageViewController.m in Sources */,
 				556D87251A7FB7A40021696D /* DPHttpService.m in Sources */,
+				55A470691AFCC12100569F7E /* AppDelegate+JPush.m in Sources */,
 				552111C31A7CA98C0026E334 /* BackSourceInfo_2005.m in Sources */,
 				552112161A7CCB540026E334 /* DPNavigationController.m in Sources */,
 				552112491A7CF7F90026E334 /* DPCommentTextField.m in Sources */,
@@ -1691,8 +1720,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "$(PROJECT_DIR)/Classes/Extention/UDID_Tools/KeychainAccessGroups.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: liu xiaobo (A38S3896Q3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: liu xiaobo (A38S3896Q3)";
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/biubiu/biubiu-Project.pch";
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -1701,6 +1730,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Nimbus\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"$(SRCROOT)/Classes/Extention/BaiduMapLib/inc\"",
+					"\"$(SRCROOT)/lib\"",
 				);
 				INFOPLIST_FILE = biubiu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1708,10 +1738,11 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/Extention/BaiduMapLib/libs/Release$(EFFECTIVE_PLATFORM_NAME)/\"",
+					"\"$(SRCROOT)/lib\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9c61133a-3417-4267-a7a4-f628c219fc82";
 			};
 			name = Debug;
 		};
@@ -1722,8 +1753,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "$(PROJECT_DIR)/Classes/Extention/UDID_Tools/KeychainAccessGroups.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shenzhen Yunkairichu Technology Co.,Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shenzhen Yunkairichu Technology Co.,Ltd";
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/biubiu/biubiu-Project.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1736,6 +1767,7 @@
 					"\"${PODS_ROOT}/Headers/Public/Nimbus\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"$(SRCROOT)/Classes/Extention/BaiduMapLib/inc\"",
+					"\"$(SRCROOT)/lib\"",
 				);
 				INFOPLIST_FILE = biubiu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1743,10 +1775,11 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/Extention/BaiduMapLib/libs/Release$(EFFECTIVE_PLATFORM_NAME)/\"",
+					"\"$(SRCROOT)/lib\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9c61133a-3417-4267-a7a4-f628c219fc82";
 			};
 			name = Release;
 		};
