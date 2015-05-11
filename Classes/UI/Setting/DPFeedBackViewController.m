@@ -8,70 +8,28 @@
 
 #import "DPFeedBackViewController.h"
 #import "DPCommentTextField.h"
-#import "OBaconView.h"
-#import "OBaconViewItem.h"
+#import "AnimateLabel.h"
+
 #import "DPHttpService.h"
 #import "BackSourceInfo_3002.h"
 #import <MBProgressHUD.h>
 #import "DPShortNoticeView.h"
 #import "DPInternetService.h"
 
-@interface FeebBackContent : OBaconViewItem
-@property (nonatomic, strong) UILabel *itemLabel;
-@end
+static int DanKuLines = 10;
 
-@implementation FeebBackContent
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // text label
-        _itemLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _itemLabel.width = SCREEN_WIDTH;
-        _itemLabel.backgroundColor = [UIColor clearColor];
-        _itemLabel.textAlignment = NSTextAlignmentCenter;
-        _itemLabel.font = [DPFont systemFontOfSize:FONT_SIZE_MIDDLE];
-        
-        _itemLabel.textColor = RGBACOLOR(0x66, 0x66, 0x66, 1);
-        _itemLabel.numberOfLines = 0;
-        
-        
-        self.backgroundColor = RGBACOLOR(0xff, 0xff, 0xff, 0.7);
-        self.layer.cornerRadius = 5;
-        self.layer.masksToBounds = YES;
-        
-        [self addSubview:_itemLabel];
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    DPTrace("反馈数据Cell销毁");
-}
-
-- (void)setContentText:(NSString*)content
-{
-    [_itemLabel setText:content];
-    [_itemLabel sizeToFit];
-    
-    self.size = CGSizeMake(_itemLabel.width + _size_S(20),_itemLabel.height + _size_S(16));
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    _itemLabel.center = CGPointMake(self.width/2, self.height/2);
-}
-
-@end
-
-@interface DPFeedBackViewController ()<DPCommentTextFieldProtocol,UIScrollViewDelegate,OBaconViewDataSource, OBaconViewDelegate>{
-    
-    OBaconView *_feedsBaconView;
-
+@interface DPFeedBackViewController ()<DPCommentTextFieldProtocol,UIScrollViewDelegate>{
     CGFloat textFieldOrignY;
+
+    NSInteger _colorType;
+    NSInteger _loopTime;
+    NSInteger _loopRow;
+    float* dankuLineLength;
+    BOOL _runningLoop;
 }
+@property (nonatomic, strong) NSMutableArray* positionArray;
+
+
 @property (nonatomic, strong) NSMutableArray* feedbacks;
 
 @property (nonatomic, strong) MBProgressHUD* HUD;
@@ -82,7 +40,7 @@
 
 @property (nonatomic, weak) DPFeedBackViewController* weakSelf;
 
-@property (nonatomic, strong) OBaconView* feedsBaconView;
+@property (nonatomic, strong) UIView* feedsBaconView;
 @end
 
 
@@ -91,6 +49,15 @@
 - (BOOL)isSupportLeftDragBack
 {
     return NO;
+}
+
+- (UIView *)feedsBaconView
+{
+    if (nil == _feedsBaconView) {
+        _feedsBaconView = [[UIView alloc] initWithFrame:self.view.bounds];
+        _feedsBaconView.backgroundColor = [UIColor clearColor];
+    }
+    return _feedsBaconView;
 }
 
 - (void)initHUD
@@ -159,7 +126,7 @@
         [_weakSelf.feedbacks addObjectsFromArray:feedbackList];
         [_weakSelf.feedbacks addObjectsFromArray:feedbackList];
         [_weakSelf.feedbacks addObjectsFromArray:feedbackList];
-        [_weakSelf.feedsBaconView reloadData];
+        [_weakSelf setup];
     }];
 }
 
@@ -175,15 +142,16 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    _feedsBaconView.delegate = nil;
-    _feedsBaconView.dataSource = nil;
+    [self resetDankuView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    dankuLineLength = (float *)malloc(DanKuLines * sizeof(float));
+    
     _feedbacks = [[NSMutableArray alloc] initWithCapacity:1];
     self.weakSelf = self;
     self.view.backgroundColor = [UIColor colorWithColorType:ColorType_BlueTxt];
@@ -203,6 +171,8 @@
     _bottomCloud.height = cloud.size.height * SCREEN_WIDTH/cloud.size.width;
     [self.view addSubview:_bottomCloud];
     
+    [self.view addSubview:self.feedsBaconView];
+    
     CGRect tbframe = [self.view bounds];
     tbframe.size.height -= [self getNavStatusBarHeight];
     _replyField = [[DPCommentTextField alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
@@ -214,21 +184,11 @@
     textFieldOrignY = _replyField.frame.origin.y;
     _bottomCloud.bottom = _replyField.top;
     
-    // init bacon View
-    _feedsBaconView = [[OBaconView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, _bottomCloud.top)];
-    _feedsBaconView.animationDirection = OBaconViewAnimationDirectionLeft;
-    _feedsBaconView.dataSource = self;
-    _feedsBaconView.delegate = self;
-    _feedsBaconView.disableSwipGesture = YES;
-    _feedsBaconView.animationTime = 4;
-    [self.view addSubview:_feedsBaconView];
-    
     [self.view bringSubviewToFront:_replyField];
     
-    UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapScrollView)];
-    [_feedsBaconView addGestureRecognizer:gesture];
-    
     [self initHUD];
+    
+    _feedsBaconView.height = _bottomCloud.centerY;
 }
 
 - (void)tapScrollView
@@ -320,42 +280,140 @@
     [_replyField resignFirstResponderEx];
 }
 
-//=============================================================================
-#pragma mark - baconView stuff
+#pragma mark -
 
-- (int) numberOfItemsInbaconView:(OBaconView *)baconView{
-    DPTrace("反馈数据：%zd条",[_feedbacks count]);
-    return (int)[_feedbacks count];
-}
-
-- (OBaconViewItem *) baconView:(OBaconView *)baconView viewForItemAtIndex:(int)index{
-    static NSString *baconItemIdentifier = @"FeedBaconItem";
-    
-    // deque baconcell
-    FeebBackContent *baconItem = (FeebBackContent *)[baconView dequeueReusableItemWithIdentifier:baconItemIdentifier];
-    
-    // create new one if it's nil
-    if (baconItem == nil) {
-        baconItem = [[FeebBackContent alloc] initWithFrame:CGRectZero];
+- (UIColor*)randomColor:(NSInteger)type
+{
+    UIColor* color = [UIColor blackColor];
+    type = type + _loopTime + _loopRow;
+    switch (type%DanKuLines) {
+        case 0:
+            color = RGBACOLOR(0x79,0x93,0xdf,1);//[UIColor colorWithColorType:ColorType_Green];
+            break;
+        case 1:
+            color = RGBACOLOR(0x57,0x87,0x42,1);//[UIColor colorWithColorType:ColorType_Pink];
+            break;
+        case 2:
+            color = RGBACOLOR(0xb2,0x36,0x36,1);//[UIColor colorWithColorType:ColorType_Yellow];
+            break;
+        default:
+            color = [UIColor colorWithColorType:ColorType_WhiteTxt];
+            break;
     }
-    
-    // fill data
-    if (index < [_feedbacks count]) {
-        BackendContentData_3002* contentData = _feedbacks[index];
-        NSString* string = [NSString stringWithFormat:@"%@", contentData.cont];
-        NSString *trimmedString = [string stringByTrimmingCharactersInSet:
-                                   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        trimmedString = [trimmedString stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-        [baconItem setContentText:trimmedString];
+    return color;
+}
+
+- (UIFont*)randomFont:(NSInteger)type
+{
+    type += (_loopRow + _loopTime)%7;
+    return [UIFont systemFontOfSize:(13+type)];
+}
+
+- (NSMutableArray *)positionArray
+{
+    if (nil == _positionArray) {
+        _positionArray = [NSMutableArray new];
     }
+    return _positionArray;
+}
+
+- (CGFloat)getRandomOffsetY:(NSInteger)index
+{
+    CGFloat yoffset = 0;
+    yoffset = (index%DanKuLines) * (_feedsBaconView.height/DanKuLines);
+    return yoffset;
+}
+
+- (CGFloat)getRandomOffsetX:(NSInteger)index withWidth:(CGFloat)twidth
+{
+    float with = dankuLineLength[index%DanKuLines];
+    dankuLineLength[index%DanKuLines] = with + twidth;
     
-    baconItem.userInteractionEnabled = NO;
-    return baconItem;
+    return with + random()%20;
 }
 
-- (void) baconView:(OBaconView *)baconView didSelectItemAtIndex:(NSInteger)index{
-    // show alert
-    return;
+- (void)resetDankuView
+{
+    _runningLoop = NO;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(setup) object:nil];
+    _loopTime = 0;
+    NSArray* subviews = _feedsBaconView.subviews;
+    for (UIView* view in subviews) {
+        if ([view isKindOfClass:[AnimateLabel class]]) {
+            [(AnimateLabel*)view disappearFromSuperview];
+        }
+    }
+    self.feedbacks = nil;
 }
 
+- (void)setup
+{
+    @synchronized(self){
+        if (_runningLoop) {
+            return;
+        }
+        _runningLoop = YES;
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(setup) object:nil];
+        
+        NSMutableArray* biubiu = [_feedbacks mutableCopy];
+        while ([biubiu count] < DanKuLines) {
+            [biubiu addObjectsFromArray:[_feedbacks copy]];
+        }
+        _loopRow = 0;
+        for (int i = 0; i < DanKuLines; i++) {
+            dankuLineLength[i] = SCREEN_WIDTH;
+        }
+        for (NSInteger index = 0; index < biubiu.count; index++) {
+            if(_runningLoop == NO){
+                //强制停止循环
+                return;
+            }
+            
+            if (index%DanKuLines == 0) {
+                _loopRow++;
+            }
+            
+            BackendContentData_3002* contentData = biubiu[index];
+            NSString* string = [NSString stringWithFormat:@"%@", contentData.cont];
+            NSString *trimmedString = [string stringByTrimmingCharactersInSet:
+                                       [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            trimmedString = [trimmedString stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+            
+            AnimateLabel* label = [[AnimateLabel alloc] initWithFrame:CGRectZero];
+            label.backgroundColor = [UIColor clearColor];
+            label.text = trimmedString;
+            
+            
+            NSInteger randomInt = rand()%8;
+            label.font = [self randomFont:randomInt];
+            label.textColor = [self randomColor:randomInt];
+            
+            [label sizeToFit];
+            [_feedsBaconView addSubview:label];
+            
+            //在开始动画前，需要设置起始位置
+            CGFloat width = [self widthOfString:trimmedString withFont:label.font];
+            label.left = [self getRandomOffsetX:(index+2*_loopTime) withWidth:width];
+            label.top = [self getRandomOffsetY:(index+2*_loopTime)];
+            
+            [label startAnimation];
+        }
+        _loopTime++;
+        
+        //计算下次启动的时间
+        CGFloat maxWith = 0;
+        for (int i = 0; i < DanKuLines; i++) {
+            maxWith += dankuLineLength[i];
+        }
+        int time = MAX(5,abs((maxWith/DanKuLines-SCREEN_WIDTH)/(1.2*60)));
+        
+        _runningLoop = NO;
+        [self performSelector:@selector(setup) withObject:nil afterDelay:time];
+    }
+}
+
+- (CGFloat)widthOfString:(NSString *)string withFont:(UIFont *)font {
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+    return [[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width;
+}
 @end
