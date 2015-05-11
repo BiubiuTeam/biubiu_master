@@ -22,5 +22,13 @@
 @property(nonatomic, strong)        NSString    *editingPlaceholder;   // default is nil. string is drawn 70% gray
 @property(nonatomic, assign)        BOOL        isEditing;        // 是否正在编辑
 
+
+@property (nonatomic, assign) NSUInteger maxCount;
+@property (nonatomic, assign) NSUInteger minCount;
+@property (nonatomic, assign) NSUInteger inputCount;
+//引用计数label
+@property (nonatomic, weak) UILabel* countLabel;
+
+- (void)dpTextDidChanged:(NSNotification*)notification;
 @end
 

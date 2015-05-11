@@ -21,7 +21,7 @@
 #define LBS_VIEW_DEFAULT_HEIGHT _size_S(33)
 
 #define SIGN_UP_VIEW_DEFAULT_HEIGHT _size_S(44)
-#define SIGN_UP_VIEW_BOTTOM _size_S(37)
+#define SIGN_UP_VIEW_BOTTOM _size_S(16)
 #define SIGN_UP_VIEW_RIGHT _size_S(22)
 
 #define CONTENT_VIEW_MARING_X _size_S(10)
@@ -45,6 +45,8 @@
 @property (nonatomic, strong) DPSignUpTextField* signUp;
 @property (nonatomic, strong) NSString* addrInfo;
 @property (nonatomic, weak) DPPublishViewController* weakSelf;
+
+@property (nonatomic, strong) UILabel* wordCountLabel;
 @end
 
 @implementation DPPublishViewController
@@ -69,6 +71,20 @@
     return self;
 }
 
+- (UILabel *)wordCountLabel
+{
+    if (nil == _wordCountLabel) {
+        _wordCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _wordCountLabel.backgroundColor = [UIColor clearColor];
+        _wordCountLabel.font = [DPFont systemFontOfSize:FONT_SIZE_MIDDLE];
+        _wordCountLabel.textColor = [UIColor colorWithColorType:ColorType_LightTxt];
+        _wordCountLabel.textAlignment = NSTextAlignmentCenter;
+        _wordCountLabel.left = SIGN_UP_VIEW_RIGHT;
+        _wordCountLabel.text = @"200/200";
+        [_wordCountLabel sizeToFit];
+    }
+    return _wordCountLabel;
+}
 
 - (void)dealloc
 {
@@ -98,6 +114,8 @@
     [self resetTextRightButtonWithTitle:NSLocalizedString(@"BB_TXTID_发表",nil) andSel:@selector(postBiuBiuOpt)];
     
     [self resetBackBarButtonWithImage];
+    
+    [self.view addSubview:self.wordCountLabel];
     [self makeTextView];
     [self makeSignUpField];
     [self makeAccessoryView];
@@ -266,12 +284,14 @@
         _textView.defaultPlaceholder = NSLocalizedString(@"BB_TXTID_版块内发表引导词", nil);
         _textView.editingPlaceholder = NSLocalizedString(@"BB_TXTID_版块内发表引导词", nil);
     }
-    
+    _textView.countLabel = self.wordCountLabel;
     _textView.delegate = self;
     _textView.textColor = CONTENT_VIEW_TEXT_COLOR;
     _textView.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
     _textView.editable = YES;
     [self.view addSubview:_textView];
+    
+    [_textView dpTextDidChanged:nil];
 }
 
 - (void)makeSignUpField
@@ -333,7 +353,7 @@
     [UIView animateWithDuration:animationDuration animations:^{
         _textView.height = self.view.height - keyboardRect.size.height - 15;
         [_textView setNeedsDisplay];
-        _signUp.bottom = CGRectGetMaxY(_textView.frame) - SIGN_UP_VIEW_BOTTOM;
+        _wordCountLabel.bottom = _signUp.bottom = CGRectGetMaxY(_textView.frame) - SIGN_UP_VIEW_BOTTOM;
     }];
 }
 
@@ -355,7 +375,7 @@
         _bottomView.top = CGRectGetMaxY(_textView.frame);
         [_textView setNeedsDisplay];
         
-        _signUp.bottom = CGRectGetMaxY(_textView.frame) - SIGN_UP_VIEW_BOTTOM;
+        _wordCountLabel.bottom = _signUp.bottom = CGRectGetMaxY(_textView.frame) - SIGN_UP_VIEW_BOTTOM;
     }];
 }
 
@@ -364,6 +384,46 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     return YES;
+}
+
+#pragma mark -
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+//    if ([text isEqualToString:@"\n"]) {
+//        return NO;
+//    }
+    if(textView.markedTextRange || ![text length]){
+        return YES;
+    }
+    
+    if (range.length >= [text length]) {
+        return YES;
+    }
+    
+    if([textView isKindOfClass:[DPTextView class]]){
+        DPTextView* post = (DPTextView*)textView;
+        NSInteger more = [text length] - range.length;
+        
+        if (post.inputCount + more > post.maxCount) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    if (textView.markedTextRange) {
+        return;
+    }
+    if([textView isKindOfClass:[DPTextView class]]){
+        DPTextView* post = (DPTextView*)textView;
+        NSString* text = textView.text;
+        if ([text length] > post.maxCount) {
+            textView.text = [text substringToIndex:post.maxCount];
+        }
+    }
 }
 
 @end

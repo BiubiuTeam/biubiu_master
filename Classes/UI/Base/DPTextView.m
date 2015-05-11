@@ -10,10 +10,9 @@
 #import "DPTextView.h"
 
 @implementation DPTextView
-
-@synthesize defaultPlaceholder = _defaultPlaceholder;
-@synthesize editingPlaceholder = _editingPlaceholder;
-@synthesize isEditing = _isEditing;
+{
+    NSUInteger _textLength;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -27,11 +26,29 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dpBeginEditing:) name:UITextViewTextDidBeginEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dpEndEditing:) name:UITextViewTextDidEndEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dpTextDidChanged:) name:UITextViewTextDidChangeNotification object:self];
+    
+    _textLength = 0;
+    _maxCount = 200;
+    _minCount = 0;
+    _inputCount = 0;
 }
 
 - (void)dpTextDidChanged:(NSNotification*)notification
 {
     [self setNeedsDisplay];
+    
+    if (self.markedTextRange) {
+        return;
+    }
+    _textLength = [self.text length];
+    
+    //统计字数
+    NSString* textContent = [self text];
+    _inputCount = [textContent length];
+    
+    if (_countLabel) {
+        _countLabel.text = [NSString stringWithFormat:@"%zd/%zd",_inputCount,_maxCount];
+    }
 }
 
 - (void)dpBeginEditing:(NSNotification*)notification
@@ -60,7 +77,7 @@
         
         if (text) {
             _isPlaceholderDisplayed = YES;
-            [RGBACOLOR(0x99, 0x99, 0x99, 1) set];
+            [[UIColor colorWithColorType:ColorType_LightTxt] set];
             
             UIEdgeInsets textInset = UIEdgeInsetsZero;
             CGFloat leftV = 10;
@@ -71,7 +88,7 @@
                 leftV = textInset.left + 3.0;
             }
             
-            CGRect rectDefault = {leftV, textInset.top, rect.size.width-leftV*2, self.font.lineHeight};
+            CGRect rectDefault = {leftV, textInset.top, rect.size.width-leftV*2, rect.size.height - textInset.top*2};
             [text drawInRect:rectDefault withFont:self.font lineBreakMode:NSLineBreakByTruncatingTail];
             
         }else{

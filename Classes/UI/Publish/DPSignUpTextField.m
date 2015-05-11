@@ -13,10 +13,6 @@
 #define LINE_TEXT_INSET _size_S(3)
 
 #define VIEW_INSET _size_S(0)
-
-#define LINE_COLOR (RGBACOLOR(0x99, 0x99, 0x99, 1))
-
-#define SIGN_TEXT_COLOR (RGBACOLOR(0x99, 0x99, 0x99, 1))
 #define SIGN_UP_MARGIN_LEFT _size_S(15)
 
 #define BOOKMARK_WORD_LIMIT 16
