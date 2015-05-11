@@ -24,4 +24,6 @@
 - (void)highlightContent:(BOOL)hightlight;
 - (void)markAsPolicyContent:(BOOL)marked;
 
++ (CGFloat)cellHeightForContentText:(NSString*)content;
+
 @end

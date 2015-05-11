@@ -197,10 +197,11 @@
     _distanceLabel.left = _placeLabel.right + _size_S(8);
     _ansNumLabel.right = _contentView.right - _size_S(16);
     
-    _placeLabel.bottom = _distanceLabel.bottom = _ansNumLabel.bottom = CELLDEGAULTHEIGHT - _size_S(6);
+    _placeLabel.top = _distanceLabel.top = _ansNumLabel.top = _contentView.bottom + _size_S(14);
     
     DPListStyleReplyView* reply = (DPListStyleReplyView*)[self findSubview:@"DPListStyleReplyView" resursion:YES];
     if (reply) {
+        reply.bottom = self.height - _size_S(30);
         [self bringSubviewToFront:reply];
     }
     
@@ -351,6 +352,8 @@
         [[DPAnswerUpdateService shareInstance] forceToUpdateAnswerList:_postModel.questId demandedCount:_postModel.ansNum];
     });
     [_contentView setNickText:_postModel.sign contentText:_postModel.quest];
+    _contentView.height = [DPListStyleContentView cellHeightForContentText:_postModel.quest];
+    
     [self setAnswerNumber:_postModel.ansNum];
     
     //特殊标识
@@ -378,4 +381,11 @@
     self.upvoteArea = nil;
     self.downvoteArea = nil;
 }
+
+#pragma mark -
++ (CGFloat)cellHeightForContentText:(NSString*)content
+{
+    return [DPListStyleContentView cellHeightForContentText:content]+ _size_S(38);
+}
+
 @end

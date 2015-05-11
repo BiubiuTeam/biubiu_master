@@ -35,4 +35,6 @@ typedef NS_ENUM(NSUInteger, ListStyleViewState) {
 
 @property (nonatomic, assign) ListStyleViewState contentState;
 
++ (CGFloat)cellHeightForContentText:(NSString*)content;
+
 @end

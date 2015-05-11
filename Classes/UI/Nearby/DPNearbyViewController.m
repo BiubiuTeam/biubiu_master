@@ -321,10 +321,13 @@
     if (_viewType != TableViewType_Plain && _viewType != TableViewType_Group) {
         return SCREEN_HEIGHT - [self getNavStatusBarHeight];
     }
+    NSNumber* questionID = [[DPQuestionUpdateService shareInstance] nearbyQuestionList][indexPath.row];
+    DPQuestionModel* model = [[DPQuestionUpdateService shareInstance] getQuestionModelWithID:questionID.integerValue];
+    
     if (_currentOpenIndex == indexPath.row) {
-        return DANKUDEGAULTHEIGHT + CELLDEGAULTHEIGHT + CELLBOTTOMHEIGHT;
+        return DANKUDEGAULTHEIGHT + [DPListStyleViewCell cellHeightForContentText:model.quest] + CELLBOTTOMHEIGHT;
     }
-    return CELLDEGAULTHEIGHT;
+    return [DPListStyleViewCell cellHeightForContentText:model.quest];
 }
 
 - (void)showErrorTips:(NSString*)message

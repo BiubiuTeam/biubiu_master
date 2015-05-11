@@ -40,6 +40,7 @@
     [self addSubview:_nickLabel];
 
     _contentLabel = [[DPContentLabel alloc] initWithFrame:CGRectMake(xpoint, _nickLabel.bottom + _size_S(14), width, 0) contentType:ContentType_Left];
+    _contentLabel.numberOfLines = 0;
     [self addSubview:_contentLabel];
 }
 
@@ -96,6 +97,23 @@
     tmpLabel.font = [DPFont systemFontOfSize:FONT_SIZE_MIDDLE];
     [tmpLabel sizeToFit];
     return tmpLabel;
+}
+
+#pragma mark - get auto adjust height
+
++ (CGFloat)defaultHeight
+{
+    return _size_S(48);
+}
+
++ (CGFloat)cellHeightForContentText:(NSString*)content
+{
+    CGFloat height = [self defaultHeight];
+    
+    if ([content length]) {
+        height += [DPContentLabel caculateHeightOfTxt:content contentType:ContentType_Left maxWidth:(SCREEN_WIDTH - 2*_size_S(16))];
+    }
+    return height;
 }
 
 @end
