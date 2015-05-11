@@ -294,14 +294,13 @@
 
 - (void)reloadIndexPathsWithCallback:(NSArray*)indexPaths
 {
-    [self.tableView beginSmartUpdatesForDuration:0.25];
-    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic completion:^{
-        [self pullRefreshControlRefreshDone];
-        [self pullRefreshControlUpdatePosition];
-    }];
-    [self.tableView endSmartUpdates];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self pullRefreshControlUpdatePosition];
+        });
+    });
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

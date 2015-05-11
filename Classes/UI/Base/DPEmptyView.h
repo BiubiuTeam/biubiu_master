@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, DPEmptyViewType) {
     DPEmptyViewType_UnionPostNone = 7, //版块内部问题为空
     DPEmptyViewType_BiuHelper = 8, //biubiu助手
     
+    DPEmptyViewType_TopicListEmpty = 9,//板块页面为空
 };
 
 @interface DPEmptyView : UIView

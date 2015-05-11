@@ -121,6 +121,7 @@
         case DPEmptyViewType_NetworkError:{
             logo = @"empty/bb_empty_network.png";
         }break;
+        case DPEmptyViewType_TopicListEmpty:
         case DPEmptyViewType_UnionPostNone:
         case DPEmptyViewType_NearbyNone:{
             logo = @"empty/bb_empty_nearby.png";
@@ -172,6 +173,9 @@
         }break;
         case DPEmptyViewType_BiuHelper:{
             msg = NSLocalizedString(@"BB_TXTID_biubiu助手提示语", @"");
+        }break;
+        case DPEmptyViewType_TopicListEmpty:{
+            msg = NSLocalizedString(@"BB_TXTID_无版块数据", @"");
         }break;
         case DPEmptyViewType_DefaultError:
         default:{

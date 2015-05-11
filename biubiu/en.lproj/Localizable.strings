@@ -276,6 +276,7 @@
 "BB_TXTID_版块通过审核" = "Your Topic application has been approved, Go see it";
 "BB_TXTID_版块未通过审核" = "Your Topic application is Unsuccessful, Create another one~";
 
+"BB_TXTID_无版块数据" = "Empty topic list,create one belongs to you～";
 "BB_TXTID_版块内提问无数据" = "No biubius here yet, say something to make it interesting";
 "BB_TXTID_审核中" = "Your application is under review with our best efforts";
 

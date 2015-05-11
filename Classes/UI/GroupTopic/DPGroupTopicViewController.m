@@ -17,10 +17,13 @@
 #import "DPLbsServerEngine.h"
 #import "DPShortNoticeView.h"
 #import "DPLocalDataManager.h"
+#import "DPEmptyView.h"
 
 #import "DPNavLocationView.h"
 @interface DPGroupTopicViewController ()
-
+{
+    TableViewType _viewType;
+}
 @property (nonatomic, strong) NSMutableArray* sociatyArray;
 
 @end
@@ -57,19 +60,7 @@
 //    if ([[DPLocalDataManager shareInstance] platformAccInfo].otherLikeNum > 10) {
         [self resetRightBarButtonWithNormal:@"bb_union_create_normal.png" highLighted:@"bb_union_create_pressed.png" andSel:@selector(openSociatyCreateViewController)];
 //    }
-    if(_unionType == UnionListType_Public){
-        DPNavLocationView* locationBtn = [[DPNavLocationView alloc] initWithFrame:CGRectMake(5.0, 0, 0, 0)];
-        [locationBtn setLbsLabelContent:NSLocalizedString(@"BB_TXTID_随便看看", nil)];
-        [locationBtn updateLayerContent:LOAD_ICON_USE_POOL_CACHE(@"bb_random_normal.png")];
-        [locationBtn addTarget:self action:@selector(randomAccessOneTopic) forControlEvents:UIControlEventTouchUpInside];
-        locationBtn.needsHighlightImage = YES;
-        [self resetLeftBarButtonWithButton:locationBtn];
-    }else{
-        [self resetBackBarButtonWithImage];
-    }
     [self removeTableHeaderView];
-    
-    [self reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,6 +70,7 @@
     if (![_sociatyArray count]) {
         [self updateUnionListOfPublic];
     }
+    [self reloadData];
 }
 
 - (void)randomAccessOneTopic
@@ -91,21 +83,56 @@
         postCtr.title = model.unionName;
         [self.navigationController pushViewController:postCtr animated:YES];
     }
+//    else{
+//        [DPShortNoticeView showTips:@"当前版块" atRootView:self.tableView];
+//    }
 }
 
 - (void)reloadData
 {
     [self pullRefreshControlRefreshDone];
     
-    [self addDownPullRefreshControl];
-    
-    if ([_sociatyArray count] >= ONEPAGE_COUNT) {
-        [self addUpPullRefreshControl];
-    }else{
-        [self removeUpPullRefreshControl];
+    TableViewType checkType = TableViewType_Empty;
+    if(NO == [[DPLbsServerEngine shareInstance] isEnabledAndAuthorize]) {
+        checkType = TableViewType_Lbs;
+    }else if ([_sociatyArray count]){
+        checkType = TableViewType_Plain;
+    }else if (NO == [[DPInternetService shareInstance] networkEnable]){
+        checkType = TableViewType_Network;
     }
+    
+    if (checkType != TableViewType_Plain && checkType != TableViewType_Group) {
+        self.tableView.scrollEnabled = NO;
+        [self removeDownPullRefreshControl];
+        [self removeUpPullRefreshControl];
+    }else{
+        self.tableView.scrollEnabled = YES;
+        [self addDownPullRefreshControl];
+        if ([_sociatyArray count] > 10) {
+            [self addUpPullRefreshControl];
+        }else{
+            [self removeUpPullRefreshControl];
+        }
+    }
+    
+    _viewType = checkType;
     [self.tableView reloadData];
     [self pullRefreshControlUpdatePosition];
+    
+    if(_unionType == UnionListType_Public){
+        if (_viewType == TableViewType_Plain) {
+            DPNavLocationView* locationBtn = [[DPNavLocationView alloc] initWithFrame:CGRectMake(5.0, 0, 0, 0)];
+            [locationBtn setLbsLabelContent:NSLocalizedString(@"BB_TXTID_随便看看", nil)];
+            [locationBtn updateLayerContent:LOAD_ICON_USE_POOL_CACHE(@"bb_random_normal.png")];
+            [locationBtn addTarget:self action:@selector(randomAccessOneTopic) forControlEvents:UIControlEventTouchUpInside];
+            locationBtn.needsHighlightImage = YES;
+            [self resetLeftBarButtonWithButton:locationBtn];
+        }else{
+            [self removeLeftNavigationBarButton];
+        }
+    }else{
+        [self resetBackBarButtonWithImage];
+    }
 }
 
 - (void)unionListCallback:(NSNotification*)notification
@@ -193,19 +220,26 @@
 
 - (void)showErrorTips:(NSString*)message
 {
-    [DPShortNoticeView showTips:message atRootView:self.tableView];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"BB_TXTID_确定", nil), nil];
+    [alert show];
 }
 
 #pragma mark - table view delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_viewType != TableViewType_Plain && _viewType != TableViewType_Group) {
+        return SCREEN_HEIGHT - [self getNavStatusBarHeight];
+    }
     return _size_S(88);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (_viewType != TableViewType_Plain && _viewType != TableViewType_Group) {
+        return;
+    }
     if (indexPath.row < [_sociatyArray count]) {
         DPSociatyModel* model = _sociatyArray[indexPath.row];
         DPUnionPostViewController* postCtr = [[DPUnionPostViewController alloc] initWithUnionId:[model.unionId integerValue]];
@@ -219,11 +253,41 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (_viewType != TableViewType_Plain && _viewType != TableViewType_Group) {
+        return 1;
+    }
     return [_sociatyArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_viewType != TableViewType_Plain && _viewType != TableViewType_Group) {
+        UITableViewCell* emptyCell = [tableView dequeueReusableCellWithIdentifier:@"EmptyViewCell"];
+        if (nil == emptyCell) {
+            emptyCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EmptyViewCell"];
+        }
+        DPEmptyView* empty = (DPEmptyView*)[emptyCell findSubview:@"DPEmptyView" resursion:YES];
+        if (empty) {
+            [empty removeFromSuperview];
+        }
+        CGRect epframe = self.view.bounds;
+        epframe.size.height = SCREEN_HEIGHT - [self getNavStatusBarHeight];
+        if (_viewType == TableViewType_Empty) {
+            empty = [DPEmptyView getEmptyViewWithFrame:epframe viewType:DPEmptyViewType_TopicListEmpty];
+        }else if (_viewType == TableViewType_Lbs){
+            empty = [DPEmptyView getEmptyViewWithFrame:epframe viewType:DPEmptyViewType_LocationError];
+        }else if (_viewType == TableViewType_Network){
+            empty = [DPEmptyView getEmptyViewWithFrame:epframe viewType:DPEmptyViewType_NetworkError];
+        }
+        [emptyCell addSubview:empty];
+        [emptyCell bringSubviewToFront:empty];
+        
+        emptyCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        emptyCell.backgroundColor = [UIColor clearColor];
+        emptyCell.accessoryType = UITableViewCellAccessoryNone;
+        return emptyCell;
+    }
+    
     static NSString* identifier = @"SociatyIdentifier";
     SociatyViewCell* cell = nil;
     cell = [tableView dequeueReusableCellWithIdentifier:identifier];
