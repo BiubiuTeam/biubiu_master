@@ -42,6 +42,7 @@
     NSMutableDictionary* body = [NSMutableDictionary dictionary];
     [body setObject:[NSNumber numberWithInteger:0x1001] forKey:@"cmd"];
     [body setObject:[SvUDIDTools aliasUdid] forKey:@"alias"];
+    [body setObject:@(TEST_PUSH_TAG) forKey:@"isTest"];
     
     [self postRequestWithBodyDictionary:body completion:^(id json, JSONModelError *err) {
         NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] init];

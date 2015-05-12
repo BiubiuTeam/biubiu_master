@@ -28,7 +28,9 @@
 #define SIMULATOR 0
 #endif
 
-#define appStoreOrAdhoc (0)
+#define appStoreOrAdhoc (1)
+
+#define TEST_PUSH_TAG (1)//0不是测试号，1是    提交的时候必须改成0
 
 #if appStoreOrAdhoc
 #define DPTrace(...)
