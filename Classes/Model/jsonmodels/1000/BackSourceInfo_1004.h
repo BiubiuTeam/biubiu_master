@@ -55,6 +55,8 @@
 @property (nonatomic, strong) NSNumber<Optional>* closeAppeal;//3隐藏致老用户入口
 @property (nonatomic, strong) NSNumber<Optional>* openCheckin;//3审核入口
 
+@property (nonatomic, strong) NSNumber<Optional>* isPush;//是否允许总的推送
+@property (nonatomic, strong) NSNumber<Optional>* creUnionFlag;//允许创建版块 1允许0不允许
 @end
 
 @interface BackSourceInfo_1004 : BackSourceInfo

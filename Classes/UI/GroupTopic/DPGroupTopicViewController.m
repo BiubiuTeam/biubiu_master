@@ -50,9 +50,7 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationWillStartUpdate:) name:DPLocationWillStartUpdate object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationDidUpdate:) name:DPLocationDidEndUpdate object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unionListCallback:) name:kPullUnionListResult object:nil];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAccountInfoUpdate:) name:kNotification_UpdateAccountInfo object:nil];
-    
+   
     [self.tableView setShowsHorizontalScrollIndicator:NO];
     [self.tableView setShowsVerticalScrollIndicator:NO];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -170,7 +168,7 @@
 
 - (void)openSociatyCreateViewController
 {
-    if ([[DPLocalDataManager shareInstance] platformAccInfo].otherLikeNum > 10) {
+    if ([[[DPLocalDataManager shareInstance] platformAccInfo].creUnionFlag boolValue] || [[DPLocalDataManager shareInstance] platformAccInfo].otherLikeNum > 10) {
         DPUnionCreateViewController* unionCreator = [[DPUnionCreateViewController alloc] init];
         [self.navigationController pushViewController:unionCreator animated:YES];
         return;

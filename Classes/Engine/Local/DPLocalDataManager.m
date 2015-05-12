@@ -203,6 +203,7 @@
 {
     if (type == 2) {
         _hasUnreadMessage = NO;
+        _unreadMessageCount = 0;
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         [delegate updateTabCounter];
     }
@@ -231,10 +232,17 @@
         NSInteger retCode = [[userInfo objectForKey:kNotification_StatusCode] integerValue];
         if (retCode == 0) {
             BackSourceInfo_1004* rspObject = [userInfo objectForKey:kNotification_ReturnObject];
-            
+
             self.platformAccInfo = rspObject.returnData;
             if(_platformAccInfo){
                 [DPFileHelper saveCacheAccountInfo:_platformAccInfo];
+                
+                NSInteger ispush = [_platformAccInfo.isPush integerValue];
+                
+                BOOL pushOn = ispush == 1;
+                NSUserDefaults *accountDefaults = [NSUserDefaults standardUserDefaults];
+                [accountDefaults setObject:@(pushOn) forKey:@"_NewMessagePush_"];
+                [accountDefaults synchronize];
             }
             if (_platformCallback) {
                 _platformCallback(YES, _platformAccInfo);

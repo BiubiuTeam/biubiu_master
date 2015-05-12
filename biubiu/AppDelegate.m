@@ -108,6 +108,11 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
+    if (application.applicationIconBadgeNumber > 0) {
+        [[DPLocalDataManager shareInstance] setHasUnreadMessage:YES];
+        [[DPLocalDataManager shareInstance] setUnreadMessageCount:application.applicationIconBadgeNumber];
+        [self updateTabCounter];
+    }
 //    //程序进入前台
 //    [application setApplicationIconBadgeNumber:0];
 //    [application cancelAllLocalNotifications];
