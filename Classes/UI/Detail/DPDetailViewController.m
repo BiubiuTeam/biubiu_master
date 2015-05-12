@@ -24,7 +24,7 @@
 #import "DPAnswerUpdateService.h"
 
 #define DETAIL_MAP_VIEW_HEIGHT _size_S(104)
-@interface DPDetailViewController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate,DPCommentTextFieldProtocol,EGORefreshTableHeaderDelegate, UIScrollViewDelegate,UIActionSheetDelegate>
+@interface DPDetailViewController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate,DPCommentTextFieldProtocol,EGORefreshTableHeaderDelegate, UIScrollViewDelegate,UIActionSheetDelegate,DPDetailReplyItemCellProtocol>
 {
     CGFloat textFieldOrignY;
     NSInteger _clickIndex;
@@ -223,6 +223,8 @@
 {
     [super viewWillDisappear:animated];
     [_mapView viewWillDisappear];
+    
+    [self removeUpPullRefreshControl];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -363,9 +365,9 @@
                     BackSourceInfo* backSource = [[BackSourceInfo alloc] initWithDictionary:json error:nil];
                     DPTrace("举报结果如下：%zd - %@", backSource.statusCode, backSource.statusInfo);
                     if (backSource.statusCode == 0) {
-                        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_举报成功",nil) atRootView:self.view];
+                        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_举报成功",nil) atRootView:_weakSelf.view];
                     }else{
-                        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_举报失败",nil) atRootView:self.view];
+                        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_举报失败",nil) atRootView:_weakSelf.view];
                     }
                 }];
                 _clickIndex = NSNotFound;
@@ -491,14 +493,7 @@
     [cell.contentView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, [self tableView:tableView heightForRowAtIndexPath:indexPath])];
     
     cell.dataPosition = indexPath.row;
-    cell.upvoteClickOpt = ^(id sender){
-        DPAnswerModel* model = (DPAnswerModel*)sender;
-        [_weakSelf voteReplyOpt:model.ansId like:1];
-    };
-    cell.downvoteClickOpt = ^(id sender){
-        DPAnswerModel* model = (DPAnswerModel*)sender;
-        [_weakSelf voteReplyOpt:model.ansId like:2];
-    };
+    cell.delegate = self;
     DPAnswerModel* model = (DPAnswerModel*)[self replyList][indexPath.row];
     [cell setQuestionId:_postDataModel.questId];
     [cell setAnsId:model.ansId];
@@ -507,6 +502,11 @@
     cell.backgroundColor = RGBACOLOR(0xf6, 0xf7, 0xf9, 1);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (void)voteAnswerUpOrDown:(NSInteger)voteType voteModel:(id)model
+{
+    [self voteReplyOpt:[(DPAnswerModel*)model ansId] like:voteType];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

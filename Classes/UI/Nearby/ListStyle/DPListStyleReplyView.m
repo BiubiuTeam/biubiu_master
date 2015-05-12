@@ -76,24 +76,25 @@ static int DanKuLines = 5;
     switch ( type) {
         case INFOTYPE_EMPTY:
         {
-            _informationLabel.text = @"还没有留言，留个言弹一发？";
+            _informationLabel.text = NSLocalizedString(@"BB_TXTID_还没有留言", nil);
         }break;
         case INFOTYPE_PROGRESS:
         {
-            _informationLabel.text = nil;//@"一大波留言正在赶来 ^_^";
+            _informationLabel.text = NSLocalizedString(@"BB_TXTID_留言正在加载", nil);
         }break;
         default:
             break;
     }
     _informationLabel.hidden = NO;
+    _informationLabel.alpha = 1;
     [_informationLabel sizeToFit];
     _informationLabel.center = CGPointMake(self.width/2, self.height/2);
 }
 
 - (void)removeInformationLabelWithAnimate:(BOOL)animate
 {
-    [UIView animateWithDuration:3 animations:^{
-        _informationLabel.right = 0;
+    [UIView animateWithDuration:1.5 animations:^{
+        _informationLabel.alpha = 0;
     } completion:^(BOOL finished) {
         if (finished) {
             _informationLabel.hidden = YES;

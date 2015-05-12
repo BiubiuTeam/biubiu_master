@@ -12,6 +12,12 @@
 
 #define REPLYITEM_FOLLOW_HEIGHT _size_S(45) //引用回复内容
 
+@protocol DPDetailReplyItemCellProtocol <NSObject>
+@optional
+- (void)voteAnswerUpOrDown:(NSInteger)voteType voteModel:(id)model;
+
+@end
+
 @interface DPDetailReplyItemCell : UITableViewCell
 
 @property (nonatomic, assign) BOOL highLightContent;
@@ -20,8 +26,7 @@
 @property (nonatomic, assign) NSInteger questionId;
 @property (nonatomic, assign) NSInteger ansId;
 
-@property (nonatomic, copy) DPCallbackBlock upvoteClickOpt;
-@property (nonatomic, copy) DPCallbackBlock downvoteClickOpt;
+@property (nonatomic, assign) id<DPDetailReplyItemCellProtocol> delegate;
 
 + (CGFloat)cellHeightForContentText:(NSString*)content withFollowMsg:(BOOL)withfm;
 

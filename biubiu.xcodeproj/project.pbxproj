@@ -1765,7 +1765,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9c61133a-3417-4267-a7a4-f628c219fc82";
+				PROVISIONING_PROFILE = "97281d3b-f175-40b9-855f-8f6b8abc73dd";
 			};
 			name = Release;
 		};

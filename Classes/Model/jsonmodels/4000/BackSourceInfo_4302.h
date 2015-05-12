@@ -12,6 +12,8 @@ typedef NS_ENUM(NSUInteger, PushItemType) {
     PushItemType_Answer = 1,
     PushItemType_Upvote = 2,
     PushItemType_Question = 3,
+    PushItemType_Topic = 4,
+    PushItemType_FloorAns = 5,
 };
 
 @protocol DPPushItemModel <NSObject>
@@ -19,13 +21,6 @@ typedef NS_ENUM(NSUInteger, PushItemType) {
 @end
 
 @interface DPPushItemModel : JSONModel
-//\"ullId\": 123,             //消息Id，用于删除该条推送记录用
-//\"questId\":1231231,       //问题Id
-//\"quest\":\"问题文本\",
-//\"ansId\":1231231,         //问题Id
-//\"ans\":\"问题文本\",
-//\"pubTime\":1231231231,     //发表时间戳
-//\"type\":1                 //新回答
 
 @property (nonatomic, strong) NSNumber<Optional>* ullId;
 @property (nonatomic, strong) NSNumber<Optional>* questId;
@@ -42,6 +37,10 @@ typedef NS_ENUM(NSUInteger, PushItemType) {
 @property (nonatomic, strong) NSNumber<Optional>* isPass;
 
 - (NSComparisonResult)sortInDescending:(DPPushItemModel*)object;
+
+//资源由后台处理
+@property (nonatomic, strong) NSString<Optional>* typePic;
+@property (nonatomic, strong) NSString<Optional>* secAns;
 
 @end
 

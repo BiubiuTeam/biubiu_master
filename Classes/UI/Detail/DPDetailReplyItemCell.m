@@ -44,12 +44,11 @@
 - (void)dealloc
 {
     DPTrace("释放回复Cell单元");
+    self.delegate = nil;
     self.upvoteArea = nil;
     self.downvoteArea = nil;
     self.contentLabel = nil;
     self.timeLabel = nil;
-    self.upvoteClickOpt = nil;
-    self.downvoteClickOpt = nil;
     self.floorLabel = nil;
 }
 
@@ -100,9 +99,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.upvoteClickOpt = nil;
-        self.downvoteClickOpt = nil;
-        
         CGRect cframe = CGRectMake(REPLYITEM_CONTENT_INSETX, REPLYITEM_FLOOR_TOP + _size_S(5), SCREEN_WIDTH - 2*REPLYITEM_CONTENT_INSETX , 0);
         cframe.origin.x = REPLYITEM_MARGIN_LEFT + REPLYITEM_INSET_HOR + REPLYITEM_FLOOR_RADIUS;
         cframe.size.width = SCREEN_WIDTH - cframe.origin.x - REPLYITEM_MARGIN_RIGHT;
@@ -173,10 +169,8 @@
         return;
     }
     _upvoteArea.selected = YES;
-    if (_upvoteClickOpt) {
-        _upvoteClickOpt([self replyModel]);
-    }else{
-        
+    if (_delegate && [_delegate respondsToSelector:@selector(voteAnswerUpOrDown:voteModel:)]) {
+        [_delegate voteAnswerUpOrDown:1 voteModel:model];
     }
     [self updateViewWithReplyModel];
 }
@@ -192,10 +186,8 @@
         return;
     }
     _downvoteArea.selected = YES;
-    if (_downvoteClickOpt) {
-        _downvoteClickOpt([self replyModel]);
-    }else{
-        
+    if (_delegate && [_delegate respondsToSelector:@selector(voteAnswerUpOrDown:voteModel:)]) {
+        [_delegate voteAnswerUpOrDown:2 voteModel:model];
     }
     [self updateViewWithReplyModel];
 }
