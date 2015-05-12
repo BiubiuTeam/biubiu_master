@@ -13,7 +13,7 @@
 #import "DPContactUsViewController.h"
 #import "DPFeedBackViewController.h"
 #import "DPShortNoticeView.h"
-
+#import "DPHttpService.h"
 #import "DPUnionCheckInViewController.h"
 @interface DPSetEventHandler ()<UIActionSheetDelegate>
 
@@ -138,7 +138,29 @@
 
 - (void)newReplyNotifySwitchState:(BOOL)isOn
 {
-    
+    NSNumber* number = isOn?@1:@2;
+    __block NSDictionary* dict = @{@"isPush":number};
+    [[DPHttpService shareInstance] updatePlatformSetting:dict completion:^(id json, JSONModelError *err) {
+        if (err == nil) {
+            BackSourceInfo* backSource = [[BackSourceInfo alloc] initWithDictionary:json error:&err];
+            if (backSource.statusCode == 0) {
+                NSNumber* ispush = [dict objectForKey:@"isPush"];
+                BOOL isOn = [ispush integerValue] == 1?YES:NO;
+                NSUserDefaults *accountDefaults = [NSUserDefaults standardUserDefaults];
+                [accountDefaults setObject:@(isOn) forKey:@"_NewMessagePush_"];
+                [accountDefaults synchronize];
+            }
+        }
+    }];
+}
+
+- (BOOL)isNewMessagePushOn
+{
+    NSUserDefaults *accountDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber* pushOn = [accountDefaults objectForKey:@"_NewMessagePush_"];
+    if(pushOn == nil || [pushOn boolValue])
+        return YES;
+    return NO;
 }
 
 @end

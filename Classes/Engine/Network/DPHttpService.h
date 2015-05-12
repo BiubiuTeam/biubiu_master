@@ -50,6 +50,9 @@
 - (void)registOrLoginPlatform;
 - (void)updatePlatformInfo;
 
+//添加1008，用户个人信息
+- (void)updatePlatformSetting:(NSDictionary*)setting completion:(JSONObjectBlock)completeBlock;
+
 //写操作
 //2006
 - (void)excuteCmdToPublishAPost:(NSString*)content

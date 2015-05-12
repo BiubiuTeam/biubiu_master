@@ -258,7 +258,7 @@
         {
             UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
             switchView.onTintColor = [UIColor colorWithColorType:ColorType_NavBar];
-            [switchView setOn:NO animated:NO];
+            [switchView setOn:[_eventHandler isNewMessagePushOn] animated:NO];
             [switchView addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
             
             return switchView;
@@ -287,7 +287,7 @@
 - (void) switchChanged:(id)sender
 {
     UISwitch* switchControl = sender;
-    NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
+    DPTrace(@"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
     [_eventHandler newReplyNotifySwitchState:switchControl.on];
 }
 

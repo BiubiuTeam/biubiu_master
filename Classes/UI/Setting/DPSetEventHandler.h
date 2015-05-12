@@ -36,5 +36,6 @@
  *  设置界面开关
  */
 - (void)newReplyNotifySwitchState:(BOOL)isOn;
+- (BOOL)isNewMessagePushOn;
 
 @end

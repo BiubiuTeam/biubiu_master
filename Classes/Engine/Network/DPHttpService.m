@@ -111,6 +111,13 @@
     }];
 }
 
+//添加1008，用户个人信息
+- (void)updatePlatformSetting:(NSDictionary*)setting completion:(JSONObjectBlock)completeBlock
+{
+    NSMutableDictionary* body = [NSMutableDictionary dictionaryWithDictionary:setting];
+    [body setObject:[NSNumber numberWithInteger:0x1008] forKey:@"cmd"];
+    [self postRequestWithBodyDictionary:body completion:completeBlock];
+}
 #pragma mark -2字段
 /*
  请求包：
