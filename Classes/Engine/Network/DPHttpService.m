@@ -690,10 +690,19 @@
             DPTrace("请求本地拦截，%@命令需求用户允许地理位置权限",[NSString hexValue:[bodyDict objectForKey:@"cmd"]]);
             return;
         }
+        
+        if ([body objectForKey:@"latitude"] == nil) {
+            float lat = [[DPLbsServerEngine shareInstance] latitude];
+            float lon = [[DPLbsServerEngine shareInstance] longitude];
+            [body setObject:@(lat) forKey:@"latitude"];
+            [body setObject:@(lon) forKey:@"longitude"];
+        }
     }
+    
     [body setObject:[SvUDIDTools UDID] forKey:@"dvcId"];
     [body setObject:[DPHttpService localVersion] forKey:@"appVersion"];
     [body setObject:@"ios" forKey:@"platform"];
+
     
     NSString* jsonString = [body jsonStringWithPrettyPrint:NO];
     
