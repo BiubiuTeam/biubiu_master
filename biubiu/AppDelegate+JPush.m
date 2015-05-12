@@ -50,7 +50,7 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    NSLog(@"%@", [NSString stringWithFormat:@"Device Token: %@", deviceToken]);
+    DPTrace(@"%@", [NSString stringWithFormat:@"Device Token: %@", deviceToken]);
     [APService registerDeviceToken:deviceToken];
 }
 
@@ -109,6 +109,11 @@
 - (void)parseNotificationData:(NSDictionary*)userInfo
 {
 //    [APService deleteLocalNotificationWithIdentifierKey:[userInfo objectForKey:@"_j_msgid"]];
+    NSDictionary* dict = [userInfo objectForKey:@"aps"];
+    if ([dict count]) {
+         NSInteger badge = [[dict objectForKey:@"badge"] integerValue];
+        [[DPLocalDataManager shareInstance] setUnreadMessageCount:badge];
+    }
     
     NSDictionary* questionDict = [userInfo objectForKey:@"question"];
     DPQuestionModel* question = nil;
@@ -121,8 +126,9 @@
     //1，设置红点
     [[DPLocalDataManager shareInstance] setHasUnreadMessage:YES];
     [self updateTabCounter];
+    
     //2，直接触发列表刷新
-    [[DPLocalDataManager shareInstance] forceToLoadNewestList];
+//    [[DPLocalDataManager shareInstance] forceToLoadNewestList];
     
 #if !TARGET_IPHONE_SIMULATOR
     BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;

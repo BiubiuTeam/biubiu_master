@@ -26,6 +26,7 @@ typedef void (^DPPlatformInfoBlock)(BOOL succeed, BackendReturnData_1004* result
 @property (nonatomic, strong) NSMutableArray* messageList;//新消息列表
 
 @property (nonatomic, assign) BOOL hasUnreadMessage;
+@property (nonatomic, assign) NSInteger unreadMessageCount;//badge number
 
 + (DPLocalDataManager*)shareInstance;
 

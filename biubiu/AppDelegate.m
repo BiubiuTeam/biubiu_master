@@ -100,17 +100,20 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // 程序返回后台 重置桌面icon未读数
-    
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    if (NO == [[DPLocalDataManager shareInstance] hasUnreadMessage]) {
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    }else{
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[DPLocalDataManager shareInstance] unreadMessageCount]];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    //程序进入前台
-    [application setApplicationIconBadgeNumber:0];
-    [application cancelAllLocalNotifications];
-    
-    //是否要清除掉？
-    [APService clearAllLocalNotifications];
+//    //程序进入前台
+//    [application setApplicationIconBadgeNumber:0];
+//    [application cancelAllLocalNotifications];
+//    
+//    //是否要清除掉？
+//    [APService clearAllLocalNotifications];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

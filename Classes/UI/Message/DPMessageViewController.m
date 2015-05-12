@@ -16,7 +16,7 @@
 #import "DPDetailViewController.h"
 #import "AppDelegate.h"
 #import "DPLocalDataManager+DebugMode.h"
-
+#import "DPInternetService.h"
 #import "DPUnionPostViewController.h"
 #import "DPUnionCreateViewController.h"
 
@@ -59,25 +59,15 @@
     };
 }
 
-- (void)updateMessageListOpt
-{
-    if ([[DPLocalDataManager shareInstance] hasUnreadMessage] == NO) {
-        DPTrace("不需要触发加载更多");
-        return;
-    }
-//    if([_datasource count]){
-//        DPPushItemModel* model = [_datasource objectAtIndex:0];
-//        [[DPLocalDataManager shareInstance] loadPushMessageList:2 lastId:[model.ullId integerValue]];
-//    }else{
-        [[DPLocalDataManager shareInstance] loadPushMessageList:2 lastId:0];
-//    }
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self updateMessageListOpt];
-    
+
+    if ([[DPLocalDataManager shareInstance] hasUnreadMessage]) {
+        [[DPLocalDataManager shareInstance] loadPushMessageList:2 lastId:0];
+    }else{
+        DPTrace("不需要触发加载更多");
+    }
     //先从缓存读取消息列表数据
     [self loadCacheMessageList];
     
@@ -86,14 +76,26 @@
 
 - (void)reloadData
 {
+    [self pullRefreshControlRefreshDone];
     if([_datasource count]){
         _viewType = TableViewType_Plain;
         self.tableView.scrollEnabled = YES;
+        [self addDownPullRefreshControl];
+        if ([_datasource count] > 10) {
+            [self addUpPullRefreshControl];
+        }else{
+            [self removeUpPullRefreshControl];
+        }
     }else{
         _viewType = TableViewType_Empty;
         self.tableView.scrollEnabled = NO;
+        
+        [self removeDownPullRefreshControl];
+        [self removeUpPullRefreshControl];
     }
+    
     [self.tableView reloadData];
+    [self pullRefreshControlUpdatePosition];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -248,6 +250,47 @@
         if (![_datasource count]) {
             [self reloadData];
         }
+    }
+}
+
+#pragma mark - refresh opt
+
+- (void)pullRefreshControlStartRefresh:(EGORefreshTableHeaderView *)view
+{
+    if ([[DPInternetService shareInstance] networkEnable] == NO) {
+        [self pullRefreshControlRefreshDone];
+        [self performSelector:@selector(showErrorTips:) withObject:NSLocalizedString(@"BB_TXTID_网络未连接，请确认网络连接是否正常",nil) afterDelay:0.1];
+        return;
+    }
+    EGOPullOrientation orientation = view.orientation;
+    if (orientation == EGOPullOrientationDown) {
+        [self performSelector:@selector(refreshMessageList) withObject:nil afterDelay:0.3];
+    }else if (orientation == EGOPullOrientationUp){
+        [self performSelector:@selector(loadMoreMessageList) withObject:nil afterDelay:0.3];
+    }
+    [self performSelector:@selector(pullRefreshControlRefreshDone) withObject:nil afterDelay:10.0f];
+}
+
+- (void)showErrorTips:(NSString*)message
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"BB_TXTID_确定", nil), nil];
+    [alert show];
+}
+
+- (void)refreshMessageList
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshMessageList) object:nil];
+    
+    [[DPLocalDataManager shareInstance] loadPushMessageList:2 lastId:0];
+}
+
+- (void)loadMoreMessageList
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(loadMoreMessageList) object:nil];
+    
+    if([_datasource count]){
+        DPPushItemModel* model = [_datasource lastObject];
+        [[DPLocalDataManager shareInstance] loadPushMessageList:1 lastId:[model.ullId integerValue]];
     }
 }
 
