@@ -165,6 +165,9 @@
             content = NSLocalizedString(@"BB_TXTID_版块未通过审核", nil);
         }
         info = model.unionName;
+    }else if([model.type integerValue] == UNREAD_MESSAGETYPE_FLOOR){
+        info = model.ans;
+        content = model.secAns;
     }
     
     [cell setMessageType:[model.type integerValue]];

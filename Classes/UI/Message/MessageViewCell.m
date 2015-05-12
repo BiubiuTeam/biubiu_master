@@ -149,6 +149,7 @@
         case UNREAD_MESSAGETYPE_QUESTION:
             imageName = NSLocalizedString(@"BB_SRCID_MSG_Quest", nil);
             break;
+        case UNREAD_MESSAGETYPE_FLOOR:
         case UNREAD_MESSAGETYPE_ANSWER:
             imageName = NSLocalizedString(@"BB_SRCID_MSG_Answer", nil);
             break;
