@@ -95,8 +95,6 @@
 		5521124F1A7CFA110026E334 /* DPHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5521124E1A7CFA110026E334 /* DPHomePageViewController.m */; };
 		5527CB2A1A809B5800959058 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5527CB291A809B5800959058 /* CoreGraphics.framework */; };
 		5527CB2C1A809B6200959058 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5527CB2B1A809B6200959058 /* QuartzCore.framework */; };
-		5527CB321A809B8300959058 /* OBaconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5527CB2F1A809B8300959058 /* OBaconView.m */; };
-		5527CB331A809B8300959058 /* OBaconViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5527CB311A809B8300959058 /* OBaconViewItem.m */; };
 		5527CB691A80D39900959058 /* DPLocalDataManager+DebugMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 5527CB681A80D39900959058 /* DPLocalDataManager+DebugMode.m */; };
 		552B15341A82172100A3E47A /* BarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 552B152D1A82172100A3E47A /* BarItem.m */; };
 		552B15351A82172100A3E47A /* CBStoreHouseRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 552B152F1A82172100A3E47A /* CBStoreHouseRefreshControl.m */; };
@@ -342,10 +340,6 @@
 		5521124E1A7CFA110026E334 /* DPHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPHomePageViewController.m; sourceTree = "<group>"; };
 		5527CB291A809B5800959058 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5527CB2B1A809B6200959058 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		5527CB2E1A809B8300959058 /* OBaconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBaconView.h; sourceTree = "<group>"; };
-		5527CB2F1A809B8300959058 /* OBaconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBaconView.m; sourceTree = "<group>"; };
-		5527CB301A809B8300959058 /* OBaconViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBaconViewItem.h; sourceTree = "<group>"; };
-		5527CB311A809B8300959058 /* OBaconViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBaconViewItem.m; sourceTree = "<group>"; };
 		5527CB671A80D39900959058 /* DPLocalDataManager+DebugMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DPLocalDataManager+DebugMode.h"; sourceTree = "<group>"; };
 		5527CB681A80D39900959058 /* DPLocalDataManager+DebugMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DPLocalDataManager+DebugMode.m"; sourceTree = "<group>"; };
 		552B152C1A82172100A3E47A /* BarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarItem.h; sourceTree = "<group>"; };
@@ -781,7 +775,6 @@
 				553046491AC5C1600069A37C /* BaiduMapLib */,
 				552B152B1A82172100A3E47A /* CBStoreHouseRefreshControl */,
 				552B15301A82172100A3E47A /* EGORefreshControl */,
-				5527CB2D1A809B8300959058 /* OBaconView */,
 				556D87261A7FBDCA0021696D /* UDID_Tools */,
 				552112051A7CC07B0026E334 /* ASProgressPopUpView */,
 			);
@@ -1017,17 +1010,6 @@
 				550950FA1AA19C1A0005E70A /* DPImageViewController.m */,
 			);
 			path = Setting;
-			sourceTree = "<group>";
-		};
-		5527CB2D1A809B8300959058 /* OBaconView */ = {
-			isa = PBXGroup;
-			children = (
-				5527CB2E1A809B8300959058 /* OBaconView.h */,
-				5527CB2F1A809B8300959058 /* OBaconView.m */,
-				5527CB301A809B8300959058 /* OBaconViewItem.h */,
-				5527CB311A809B8300959058 /* OBaconViewItem.m */,
-			);
-			path = OBaconView;
 			sourceTree = "<group>";
 		};
 		552B152B1A82172100A3E47A /* CBStoreHouseRefreshControl */ = {
@@ -1556,7 +1538,6 @@
 				553C74761AC6A78D004C1D5B /* NSObject+Encoder.m in Sources */,
 				552B17161AC14AB40072812C /* DPUnionCreateViewController.m in Sources */,
 				55DBDAD81AC54E0500D529B2 /* UIImageView+AsyncImage.m in Sources */,
-				5527CB321A809B8300959058 /* OBaconView.m in Sources */,
 				5502FD611A7D08EE005FF4C3 /* DPLocalEventHandler+Setting.m in Sources */,
 				553046911AC5C99D0069A37C /* DPLbsServerEngine.mm in Sources */,
 				55E8F08B1AA7FB3A0005F9F3 /* DPAnswerUpdateService.m in Sources */,
@@ -1585,7 +1566,6 @@
 				552111E51A7CBB890026E334 /* NSStringAdditions.m in Sources */,
 				552111CA1A7CA98C0026E334 /* BackSourceInfo_4002.m in Sources */,
 				55D162CA1AAAC3660092CFC7 /* DPQustionPool.m in Sources */,
-				5527CB331A809B8300959058 /* OBaconViewItem.m in Sources */,
 				552111D91A7CB6670026E334 /* UIViewAdditions.m in Sources */,
 				5502FD771A7DC5CD005FF4C3 /* DPSignUpTextField.m in Sources */,
 				552111CB1A7CA98C0026E334 /* BackSourceInfo_4101.m in Sources */,

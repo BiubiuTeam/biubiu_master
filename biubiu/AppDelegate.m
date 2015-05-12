@@ -11,7 +11,7 @@
 
 #import "AppDelegate+BaiduMap.h"
 #import "DPHttpService.h"
-
+#import "APService.h"
 #import "DPNavigationController.h"
 #import "DPNearbyViewController.h"
 #import "DPMessageViewController.h"
@@ -106,19 +106,17 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     //程序进入前台
-    
     [application setApplicationIconBadgeNumber:0];
     [application cancelAllLocalNotifications];
+    
+    //是否要清除掉？
+    [APService clearAllLocalNotifications];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [BMKMapView didForeGround];
     [[DPLbsServerEngine shareInstance] forceToUpdateLocation];
-    
-//    if (application) {
-//        <#statements#>
-//    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

@@ -13,6 +13,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UITabBarControllerDelegate,BMKGeneralDelegate>
 {
     BMKMapManager* _mapManager;
+    UITabBarController * _tabBarController;
 }
 @property (strong, nonatomic) BMKMapManager* mapManager;
 

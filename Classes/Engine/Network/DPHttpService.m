@@ -685,6 +685,7 @@
     }
     [body setObject:[SvUDIDTools UDID] forKey:@"dvcId"];
     [body setObject:[DPHttpService localVersion] forKey:@"appVersion"];
+    [body setObject:@"ios" forKey:@"platform"];
     
     NSString* jsonString = [body jsonStringWithPrettyPrint:NO];
     

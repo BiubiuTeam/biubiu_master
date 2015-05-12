@@ -9,6 +9,9 @@
 #import "AppDelegate+JPush.h"
 #import "APService.h"
 #import "SvUDIDTools.h"
+#import "DPQuestionUpdateService.h"
+#import "DPDetailViewController.h"
+
 @implementation AppDelegate (JPush)
 
 
@@ -105,23 +108,36 @@
 
 - (void)parseNotificationData:(NSDictionary*)userInfo
 {
+//    [APService deleteLocalNotificationWithIdentifierKey:[userInfo objectForKey:@"_j_msgid"]];
+    
+    NSDictionary* questionDict = [userInfo objectForKey:@"question"];
+    DPQuestionModel* question = nil;
+    if (questionDict) {
+        question = [[DPQuestionModel alloc] initWithDictionary:questionDict error:nil];
+        [[DPQuestionUpdateService shareInstance] replaceMemoryCacheQuestion:question];
+    }
+    NSLog(@"收到推送: %@",questionDict);
+    //如果程序在前台
+    //1，设置红点
+    [[DPLocalDataManager shareInstance] setHasUnreadMessage:YES];
+    [self updateTabCounter];
+    //2，直接触发列表刷新
+    [[DPLocalDataManager shareInstance] forceToLoadNewestList];
+    
 #if !TARGET_IPHONE_SIMULATOR
     BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
     if (isAppActivity) {
-        NSLog(@"收到推送: %@",userInfo);
-        //如果程序在前台
-        //1，当前tab不在消息列表，设置红点
-        
-        //2，当前tab在消息列表
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"推送内容" message:[NSString stringWithFormat:@"%@",userInfo] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [alert show];
-    }else{
+
+    }else if(question){
         //从通知栏点击进入，打开问题详情页
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"推送内容" message:[NSString stringWithFormat:@"%@",userInfo] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [alert show];
+        DPDetailViewController* detail = [[DPDetailViewController alloc] initWithPost:question];
+        detail.inputBarIsFirstResponse = NO;
         
-        //设置红点
-        
+        UINavigationController* nav = (UINavigationController*)_tabBarController.selectedViewController;
+        if ([nav.topViewController isKindOfClass:[DPDetailViewController class]]) {
+            [nav popViewControllerAnimated:NO];
+        }
+        [nav pushViewController:detail animated:YES];
     }
 #endif
 }

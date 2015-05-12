@@ -36,6 +36,7 @@ typedef void (^DPPlatformInfoBlock)(BOOL succeed, BackendReturnData_1004* result
 - (void)getPostReplyList:(NSInteger)questId completion:(DPArrayCallbackBlock)callback;
 
 - (void)loadPushMessageList:(NSInteger)type lastId:(NSInteger)lastId;
+- (void)forceToLoadNewestList;
 
 - (BOOL)messageReadTag:(NSInteger)messageId;
 - (void)setMessageReadTag:(NSInteger)messageId readTag:(BOOL)read;

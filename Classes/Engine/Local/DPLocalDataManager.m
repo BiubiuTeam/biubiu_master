@@ -213,6 +213,14 @@
     [[DPHttpService shareInstance] excuteCmdToPullNewMessage:type lastId:lastId latitude:lat logitude:lon];
 }
 
+- (void)forceToLoadNewestList
+{
+    float lat = [[DPLbsServerEngine shareInstance] latitude];
+    float lon = [[DPLbsServerEngine shareInstance] longitude];
+    _reqUnreadMessage = YES;
+    [[DPHttpService shareInstance] excuteCmdToPullNewMessage:2 lastId:0 latitude:lat logitude:lon];
+}
+
 #pragma mark -通知处理
 - (void)onPlatformAccountInfoUpdate:(NSNotification*)notification
 {
