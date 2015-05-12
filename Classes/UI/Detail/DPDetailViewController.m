@@ -318,7 +318,7 @@
                                   destructiveButtonTitle:nil
                                   otherButtonTitles:NSLocalizedString(@"BB_TXTID_确定", @""),nil];
     actionSheet.tag = 0x1001;
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
     [actionSheet showInView:self.view];
 }
 
@@ -331,7 +331,7 @@
                                   destructiveButtonTitle:nil
                                   otherButtonTitles:NSLocalizedString(@"BB_TXTID_回答", @""),NSLocalizedString(@"BB_TXTID_举报", @""),NSLocalizedString(@"BB_TXTID_取消", @""),nil];
     actionSheet.tag = 0x1002;
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
     [actionSheet showInView:self.view];
 }
 
@@ -386,6 +386,9 @@
     if(actionSheet.tag == 0x1002 && buttonIndex == 0){
         //回复回复
         NSLog(@"回复回复");
+        DPAnswerModel* model = (DPAnswerModel*)[self replyList][_clickIndex];
+        _replyField.floorNumber = [model.floorId integerValue];
+        [_replyField setCommentType:CommentType_Floor];
         [_replyField becomeFirstResponder];
     }
 }
@@ -509,6 +512,35 @@
     [self voteReplyOpt:[(DPAnswerModel*)model ansId] like:voteType];
 }
 
+- (void)didClickFollowFloor:(id)model cellIndex:(NSInteger)index
+{
+#if 0
+    //响应到整个回复
+    _clickIndex = index;
+    [_replyField resignFirstResponderEx];
+    [self showReportAnswerSheet];
+#else
+    //跳转到回复楼层
+    DPAnswerModel* topModel = (DPAnswerModel*)model;
+    DPAnswerModel* followModel = topModel.otherAnsData;
+    if (followModel) {
+        NSInteger follow = followModel.ansId;
+        NSArray* list = [self replyList];
+        for (DPAnswerModel* subModel in list) {
+            if (subModel.ansId == follow) {
+                NSInteger row = [list indexOfObject:subModel];
+                NSIndexPath* indexpath = [NSIndexPath indexPathForRow:row inSection:0];
+                [_tableView scrollToRowAtIndexPath:indexpath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+                return;
+            }
+        }
+    }
+    _clickIndex = index;
+    [_replyField resignFirstResponderEx];
+    [self showReportAnswerSheet];
+#endif
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -562,6 +594,7 @@
 {
     //这个是决定是否是回复回复的关键点啊
     _clickIndex = NSNotFound;
+    [_replyField setCommentType:CommentType_Default];
     
     NSDictionary* userInfo = [notification userInfo];
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];

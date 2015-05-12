@@ -16,6 +16,8 @@
 @optional
 - (void)voteAnswerUpOrDown:(NSInteger)voteType voteModel:(id)model;
 
+- (void)didClickFollowFloor:(id)model cellIndex:(NSInteger)index;
+
 @end
 
 @interface DPDetailReplyItemCell : UITableViewCell

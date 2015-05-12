@@ -79,11 +79,20 @@
         [_followFloorBtn setBackgroundImage:image forState:UIControlStateHighlighted];
         _followFloorBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [_followFloorBtn setTitleColor:[UIColor colorWithColorType:ColorType_MediumTxt] forState:UIControlStateNormal];
-        
+
         UIEdgeInsets insets = {7, 8, 0, 8};
         _followFloorBtn.contentEdgeInsets = insets;
+        
+        [_followFloorBtn addTarget:self action:@selector(didClickFollowFloorButton) forControlEvents:UIControlEventTouchUpInside];
     }
     return _followFloorBtn;
+}
+
+- (void)didClickFollowFloorButton
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(didClickFollowFloor:cellIndex:)]) {
+        [_delegate didClickFollowFloor:[self replyModel] cellIndex:_dataPosition];
+    }
 }
 
 - (void)setFollowFloorNumber:(NSInteger)number followMsg:(NSString*)msg

@@ -293,3 +293,4 @@
 //2.2
 "BB_TXTID_还没有留言" = "No message, leave a message for a bomb?";
 "BB_TXTID_留言正在加载" = "A wave of messages are coming ^_^";
+"BB_TXTID_楼层回复" = "Comment to %zd floor";

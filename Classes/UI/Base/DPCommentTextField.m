@@ -44,9 +44,6 @@
         _textField = [[DPTextView alloc] initWithFrame:CGRectMake(CONTENT_MAGRIN, CONTENT_MAGRIN_TOP, SCREEN_WIDTH - CONTENT_MAGRIN*2, SEND_BTN_HEIGHT)];
         _textField.backgroundColor = RGBACOLOR(0xf8, 0xf9, 0xfc, 1);
         _textField.textColor = RGBACOLOR(0x33, 0x33, 0x33, 1);
-        _textField.defaultPlaceholder = NSLocalizedString(@"BB_TXTID_说些什么吧...", @"");
-        _textField.editingPlaceholder = NSLocalizedString(@"BB_TXTID_说些什么吧...", @"");
-        
         _textField.returnKeyType = UIReturnKeyDefault;
         _textField.textAlignment = NSTextAlignmentLeft;
         _textField.font = [DPFont systemFontOfSize:FONT_SIZE_MIDDLE];
@@ -75,8 +72,22 @@
         [_sendBtn addTarget:self action:@selector(sendButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_sendBtn];
         
+        self.commentType = CommentType_Default;
     }
     return self;
+}
+
+- (void)setCommentType:(CommentType)commentType
+{
+    _commentType = commentType;
+    if (CommentType_Default == _commentType) {
+        _textField.defaultPlaceholder = NSLocalizedString(@"BB_TXTID_说些什么吧...", @"");
+        _textField.editingPlaceholder = NSLocalizedString(@"BB_TXTID_说些什么吧...", @"");
+    }else{
+        NSString* holder = [NSString stringWithFormat:NSLocalizedString(@"BB_TXTID_楼层回复", nil),_floorNumber];
+        _textField.defaultPlaceholder = holder;
+        _textField.editingPlaceholder = holder;
+    }
 }
 
 - (BOOL)becomeFirstResponder

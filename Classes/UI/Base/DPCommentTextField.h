@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSUInteger, CommentType) {
+    CommentType_Default = 0,
+    CommentType_Floor = 1, //回复楼层
+};
+
 @class DPCommentTextField;
 
 @protocol DPCommentTextFieldProtocol <NSObject>
@@ -18,7 +24,8 @@
 @end
 
 @interface DPCommentTextField : UIView
-
+@property (nonatomic) CommentType commentType;
+@property (nonatomic) NSInteger floorNumber;
 @property (nonatomic) CGFloat maxCommentTextFieldHeight;
 @property (nonatomic) CGFloat maxTextFieldHeight;
 
