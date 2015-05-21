@@ -254,6 +254,7 @@ NSString* const DPLocationGetReverseGeoCodeResult = @"_DPLocationGetReverseGeoCo
 }
 
 //是否打开且授权
+static BOOL everShowUpAlert = NO;
 -(BOOL) isEnabledAndAuthorize
 {
     if ([self isLocationServerviceEnabled] && [self isAuthorized])
@@ -262,6 +263,11 @@ NSString* const DPLocationGetReverseGeoCodeResult = @"_DPLocationGetReverseGeoCo
     }
     else
     {
+        if (NO == everShowUpAlert) {
+            everShowUpAlert = YES;
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"BB_TXTID_确定",nil), nil];
+            [alert show];
+        }
         return NO;
     }
 }

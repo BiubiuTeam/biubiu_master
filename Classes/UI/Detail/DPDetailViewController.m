@@ -347,7 +347,7 @@
     if (buttonIndex == 0) {
         if (actionSheet.tag == 0x1001) {
             //举报问题
-            [[DPHttpService shareInstance] reportItem:1 type:_postDataModel.questId completion:^(id json, JSONModelError *err) {
+            [[DPHttpService shareInstance] reportItem:_postDataModel.questId type:1 completion:^(id json, JSONModelError *err) {
                 BackSourceInfo* backSource = [[BackSourceInfo alloc] initWithDictionary:json error:nil];
                 DPTrace("举报结果如下：%zd - %@", backSource.statusCode, backSource.statusInfo);
                 if (backSource.statusCode == 0) {
@@ -643,7 +643,7 @@
         }
         if ([[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
             DPTrace("定位服务不可用");
-            [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
+//            [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
             return;
         }
         NSInteger ansId = 0;

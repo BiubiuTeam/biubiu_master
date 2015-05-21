@@ -197,8 +197,10 @@
     
     TableViewType checkType = TableViewType_Empty;
     if(NO == [[DPLbsServerEngine shareInstance] isEnabledAndAuthorize]) {
-        checkType = TableViewType_Lbs;
-    }else if ([[[DPQuestionUpdateService shareInstance] nearbyQuestionList] count]){
+//        checkType = TableViewType_Lbs;
+    }
+    
+    if ([[[DPQuestionUpdateService shareInstance] nearbyQuestionList] count]){
         checkType = TableViewType_Plain;
     }else if (NO == [[DPInternetService shareInstance] networkEnable]){
         checkType = TableViewType_Network;

@@ -138,7 +138,7 @@
         self.curInfo = [[DPLbsServerEngine shareInstance] getPoiInfoAtIndex:_currentPoiIndex];
         [self setLbsInfo:_curInfo.name];
     }else{
-        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
+//        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
     }
 }
 
@@ -166,7 +166,7 @@
     }
     if ([[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
         DPTrace("定位服务不可用");
-        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
+//        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         return;
     }
@@ -325,7 +325,7 @@
         self.curInfo = [[DPLbsServerEngine shareInstance] getPoiInfoAtIndex:_currentPoiIndex];
         [self setLbsInfo:_curInfo.name];
     }else{
-        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
+//        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
     }
 }
 

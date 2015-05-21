@@ -263,7 +263,7 @@
 {
     [super viewDidAppear:animated];
     if ([[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
-        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
+//        [DPShortNoticeView showTips:NSLocalizedString(@"BB_TXTID_需要开启定位服务，允许biubiu的请求",nil) atRootView:self.view];
     }
 }
 
